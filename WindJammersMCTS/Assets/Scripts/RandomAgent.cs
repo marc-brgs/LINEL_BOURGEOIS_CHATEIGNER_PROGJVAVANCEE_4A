@@ -5,26 +5,38 @@ using UnityEngine;
 
 public class RandomAgent : MonoBehaviour
 {
-    private bool actionExecute = true;
-    
+    bool actionExecute = true;
+    private Rigidbody rb;
+
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(doAction());
+        rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (actionExecute)
-            doAction();
+        {
+            StartCoroutine(doAction());
+        }
+            
     }
 
     private IEnumerator doAction()
     {
         actionExecute = false;
-        Debug.Log("Action");
-        yield return new WaitForSeconds(2f);
+        rb.velocity = new Vector3( Random.Range(-0.6f, 0.8f), 0, Random.Range(-0.8f, 0.8f)) * 30f;
+
+        if (FrisbeeController.instance.lastHolder == "Ennemy")
+        {
+            if (Random.Range(0, 10) > 3)
+            {
+                FrisbeeController.instance.Shoot();
+            }
+        }
+        yield return new WaitForSeconds(1f);
         actionExecute = true;
     }
 }

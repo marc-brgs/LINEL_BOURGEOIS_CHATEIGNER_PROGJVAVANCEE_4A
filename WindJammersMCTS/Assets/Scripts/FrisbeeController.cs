@@ -9,7 +9,7 @@ public class FrisbeeController : MonoBehaviour
 
     private bool isHeld = false;
     private bool isMoving = false;
-    private string lastHolder = "Ennemy";
+    public string lastHolder = "Ennemy";
 
     private float frisbeeSpeed = 20f;
 
