@@ -6,17 +6,17 @@ public class FrisbeeController : MonoBehaviour
 {
     private bool isFixed = false;
     private string lastHolder = "Player";
-    
+
     private float frisbeeSpeed = 20f;
 
     private float directionX = -1;
     private float directionY = 1;
-    
+
     private Rigidbody rb;
 
     public GameObject player;
     public GameObject ennemy;
-    
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -31,7 +31,7 @@ public class FrisbeeController : MonoBehaviour
             lastHolder = "Player";
             Debug.Log("Player catch");
         }
-        
+
         float distEnnemy = Vector3.Distance(ennemy.transform.position, transform.position);
         if (distEnnemy < 2.5f && lastHolder != "Ennemy") // Catch
         {
@@ -39,7 +39,7 @@ public class FrisbeeController : MonoBehaviour
             lastHolder = "Ennemy";
             Debug.Log("Ennemy catch");
         }
-        
+
         if(isFixed && Input.GetMouseButtonDown(0)) // Release frisbee
         {
             isFixed = false;
@@ -65,7 +65,7 @@ public class FrisbeeController : MonoBehaviour
         }
         else // Stick
         {
-            if(lastHolder == "Player") 
+            if(lastHolder == "Player")
                 transform.position = player.transform.position + new Vector3(-3.0f, 0f, 0f);
             else if(lastHolder == "Ennemy")
                 transform.position = ennemy.transform.position + new Vector3(3.0f, 0f, 0f);
@@ -85,13 +85,13 @@ public class FrisbeeController : MonoBehaviour
                 directionX = -directionX;
             }
         }
-        
+
     }
 
 
     void OnTriggerEnter(Collider collision)
     {
-        if (collision.CompareTag("EGoal")) 
+        if (collision.CompareTag("EGoal"))
         {
             Scores.instance.PlayerScore += 1;
         }
