@@ -366,7 +366,6 @@ GameObject:
   - component: {fileID: 172957052}
   - component: {fileID: 172957051}
   - component: {fileID: 172957050}
-  - component: {fileID: 172957055}
   - component: {fileID: 172957054}
   - component: {fileID: 172957056}
   - component: {fileID: 172957057}
@@ -471,18 +470,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
---- !u!114 &172957055
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 172957049}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64ac4172ea7836a489b7f0d460dab5fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &172957056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1136,8 +1123,6 @@ MonoBehaviour:
   GameIsPaused: 0
   pauseMenu: {fileID: 574847949}
   frisbee: {fileID: 1150344354}
-  playerGoal: {fileID: 1115279038}
-  ennemyGoal: {fileID: 1946216812}
 --- !u!4 &624771243
 Transform:
   m_ObjectHideFlags: 0
@@ -2012,7 +1997,7 @@ GameObject:
   - component: {fileID: 1034406962}
   - component: {fileID: 1034406961}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2457,7 +2442,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1150344354}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.25, y: 2.25, z: 0}
+  m_LocalPosition: {x: 6, y: 2.25, z: 0}
   m_LocalScale: {x: 1.8, y: 0.1, z: 1.8}
   m_ConstrainProportionsScale: 0
   m_Children: []
