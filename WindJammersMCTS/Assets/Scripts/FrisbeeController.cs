@@ -99,6 +99,7 @@ public class FrisbeeController : MonoBehaviour
         if (collision.CompareTag("PGoal"))
         {
             Scores.instance.EnnemyScore += 1;
+            Debug.Log("AAAAAAAAAAAA");
         }
     }
 
