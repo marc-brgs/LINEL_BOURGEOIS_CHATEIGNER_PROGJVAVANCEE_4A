@@ -47,7 +47,6 @@ public class FrisbeeController : MonoBehaviour
             isHeld = true;
             isMoving = true; // first catch
             lastHolder = "Player";
-            Debug.Log("Player catch");
         }
 
         float distEnnemy = Vector3.Distance(ennemy.transform.position, transform.position);
@@ -56,7 +55,6 @@ public class FrisbeeController : MonoBehaviour
             isHeld = true;
             isMoving = true; // first catch
             lastHolder = "Ennemy";
-            Debug.Log("Ennemy catch");
         }
 
         if(isHeld && Input.GetMouseButtonDown(0)) // Release frisbee

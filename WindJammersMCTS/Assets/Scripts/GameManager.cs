@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     
     public GameObject pauseMenu;
     public GameObject frisbee;
+    public GameObject ennemy;
+    private string gameMode = "Random"; // Default gameMode
 
     void Awake()
     {
@@ -25,7 +27,29 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       
+        if(GameConfig.instance != null) // Recover gameMode selected from menu
+            gameMode = GameConfig.instance.gameMode;
+        
+        if (gameMode == "Solo")
+        {
+            ennemy.GetComponent<RandomAgent>().enabled = false; // remove random agent
+        }
+        if (gameMode == "Duo")
+        {
+            ennemy.GetComponent<PlayerController>().enabled = false; // remove controls
+            ennemy.GetComponent<RandomAgent>().enabled = false; // remove random agent
+        }
+
+        if (gameMode == "Random")
+        {
+            ennemy.GetComponent<PlayerController>().enabled = false; // remove controls
+            
+        }
+        if (gameMode == "MCTS")
+        {
+            ennemy.GetComponent<PlayerController>().enabled = false; // remove controls
+            ennemy.GetComponent<RandomAgent>().enabled = false; // remove random agent
+        }
     }
 
     // Update is called once per frame

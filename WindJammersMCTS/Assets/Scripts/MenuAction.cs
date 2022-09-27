@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MenuPrincipal : MonoBehaviour
+public class MenuAction : MonoBehaviour
 {
     public void Jouer()
     {
@@ -13,5 +13,10 @@ public class MenuPrincipal : MonoBehaviour
     public void Quitter()
     {
         Application.Quit();
+    }
+
+    public void setGameMode(string gameMode)
+    {
+        GameConfig.instance.gameMode = gameMode;
     }
 }

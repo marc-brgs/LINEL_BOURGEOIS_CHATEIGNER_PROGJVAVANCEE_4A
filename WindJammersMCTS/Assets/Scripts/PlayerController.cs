@@ -32,7 +32,6 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        Debug.Log(GameConfig.instance.test);
     }
 
     private void OnEnable()

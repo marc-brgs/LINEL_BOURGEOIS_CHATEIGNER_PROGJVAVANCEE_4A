@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameConfig : MonoBehaviour
 {
     public static GameConfig instance;
-    public bool test = true;
+    public string gameMode = "Solo";
     
     void Awake()
     {
