@@ -1098,6 +1098,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0c76e40753b7b6448e6a03365b6bafb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GameIsPaused: 0
   pauseMenu: {fileID: 574847949}
   frisbee: {fileID: 1150344354}
   playerGoal: {fileID: 1115279038}
@@ -2998,7 +2999,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -20}
   m_SizeDelta: {x: 1066, y: 1100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1488024002
