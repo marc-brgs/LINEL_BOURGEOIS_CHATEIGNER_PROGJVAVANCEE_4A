@@ -9,9 +9,12 @@ public class GameManager : MonoBehaviour
     public bool GameIsPaused = false;
     
     public GameObject pauseMenu;
+    public GameObject menuFin;
     public GameObject frisbee;
     public GameObject ennemy;
+
     private string gameMode = "Random"; // Default gameMode
+    private bool gameEnded = false;
 
     void Awake()
     {
@@ -55,7 +58,8 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CheckForPause();
+        if(!gameEnded)
+            CheckForPause();
     }
 
     public void CheckForPause()
@@ -85,5 +89,22 @@ public class GameManager : MonoBehaviour
         pauseMenu.SetActive(true);
         Time.timeScale = 0f;
         GameIsPaused = true;
+    }
+
+    public void ReplayGame()
+    {
+        menuFin.SetActive(false);
+        Scores.instance.PlayerScore = 0;
+        Scores.instance.EnnemyScore = 0;
+        Time.timeScale = 1f;
+        gameEnded = false;
+    }
+    
+    public void EndGame()
+    {
+        gameEnded = true;
+        menuFin.SetActive(true);
+        Time.timeScale = 0f;
+        GameObject.Find("UI/Menu Fin/Texte").GetComponent<TMPro.TextMeshProUGUI>().text = Scores.instance.EnnemyScore.ToString() + '-' + Scores.instance.PlayerScore.ToString();
     }
 }

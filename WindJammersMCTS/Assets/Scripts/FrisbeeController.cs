@@ -115,6 +115,9 @@ public class FrisbeeController : MonoBehaviour
             isMoving = false;
             isHeld = false;
             rb.velocity = new Vector3(0, 0, 0);
+
+            if (Scores.instance.PlayerScore == 10)
+                GameManager.instance.EndGame();
         }
 
         if (collision.CompareTag("PGoal")) // Ennemy scored
@@ -125,6 +128,9 @@ public class FrisbeeController : MonoBehaviour
             isMoving = false;
             isHeld = false;
             rb.velocity = new Vector3(0, 0, 0);
+            
+            if (Scores.instance.EnnemyScore == 10)
+                GameManager.instance.EndGame();
         }
     }
 
