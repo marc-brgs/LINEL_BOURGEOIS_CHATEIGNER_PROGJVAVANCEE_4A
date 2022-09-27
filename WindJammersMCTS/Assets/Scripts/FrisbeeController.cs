@@ -100,6 +100,8 @@ public class FrisbeeController : MonoBehaviour
         {
             Scores.instance.EnnemyScore += 1;
             Debug.Log("AAAAAAAAAAAA");
+            Debug.Log("AAAAAAAAAAAA");
+
         }
     }
 
