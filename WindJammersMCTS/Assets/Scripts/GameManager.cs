@@ -11,11 +11,6 @@ public class GameManager : MonoBehaviour
     public GameObject pauseMenu;
     public GameObject frisbee;
 
-    public GameObject playerGoal;
-    public GameObject ennemyGoal;
-
-
-
     void Awake()
     {
         if (instance != null)

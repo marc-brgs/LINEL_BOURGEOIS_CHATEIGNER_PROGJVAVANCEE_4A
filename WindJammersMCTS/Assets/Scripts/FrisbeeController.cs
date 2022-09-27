@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class FrisbeeController : MonoBehaviour
 {
-    private bool isFixed = false;
-    private string lastHolder = "Player";
+    private bool isMoving = false;
+    private bool isHeld = false;
+    private string lastHolder = "Ennemy";
 
     private float frisbeeSpeed = 20f;
 
@@ -27,7 +28,8 @@ public class FrisbeeController : MonoBehaviour
         float distPlayer = Vector3.Distance(player.transform.position, transform.position);
         if (distPlayer < 2.5f && lastHolder != "Player") // Catch
         {
-            isFixed = true;
+            isHeld = true;
+            isMoving = true; // first catch
             lastHolder = "Player";
             Debug.Log("Player catch");
         }
@@ -35,14 +37,15 @@ public class FrisbeeController : MonoBehaviour
         float distEnnemy = Vector3.Distance(ennemy.transform.position, transform.position);
         if (distEnnemy < 2.5f && lastHolder != "Ennemy") // Catch
         {
-            isFixed = true;
+            isHeld = true;
+            isMoving = true; // first catch
             lastHolder = "Ennemy";
             Debug.Log("Ennemy catch");
         }
 
-        if(isFixed && Input.GetMouseButtonDown(0)) // Release frisbee
+        if(isHeld && Input.GetMouseButtonDown(0)) // Release frisbee
         {
-            isFixed = false;
+            isHeld = false;
             if (lastHolder == "Player")
             {
                 transform.position = new Vector3(transform.position.x, 2.25f, transform.position.z);
@@ -59,11 +62,11 @@ public class FrisbeeController : MonoBehaviour
     }
     void FixedUpdate()
     {
-        if (!isFixed) // Move frisbee
+        if (isMoving && !isHeld) // Move frisbee
         {
             rb.velocity = new Vector3(directionX, 0, directionY) * frisbeeSpeed;
         }
-        else // Stick
+        else if(isHeld)// Stick
         {
             if(lastHolder == "Player")
                 transform.position = player.transform.position + new Vector3(-3.0f, 0f, 0f);
@@ -87,23 +90,28 @@ public class FrisbeeController : MonoBehaviour
         }
 
     }
-
-
+    
     void OnTriggerEnter(Collider collision)
     {
-        if (collision.CompareTag("EGoal"))
+        if (collision.CompareTag("EGoal")) // Player scored
         {
             Scores.instance.PlayerScore += 1;
+            lastHolder = "Player";
+            this.transform.position = new Vector3(-6f, 2.25f, 0f); // Set frisbee in ennemy zone
+            isMoving = false;
+            isHeld = false;
+            rb.velocity = new Vector3(0, 0, 0);
         }
 
-        if (collision.CompareTag("PGoal"))
+        if (collision.CompareTag("PGoal")) // Ennemy scored
         {
             Scores.instance.EnnemyScore += 1;
-
+            lastHolder = "Ennemy";
+            this.transform.position = new Vector3(6f, 2.25f, 0f); // Set frisbee in player zone
+            isMoving = false;
+            isHeld = false;
+            rb.velocity = new Vector3(0, 0, 0);
         }
     }
-
-
-
 
 }

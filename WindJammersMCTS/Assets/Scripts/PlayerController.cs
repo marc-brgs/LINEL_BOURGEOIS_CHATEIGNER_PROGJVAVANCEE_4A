@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        Debug.Log(GameConfig.instance.test);
     }
 
     // Update is called once per frame
