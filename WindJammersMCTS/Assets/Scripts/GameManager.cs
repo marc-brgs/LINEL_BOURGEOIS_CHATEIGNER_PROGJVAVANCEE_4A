@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 
-public class GameController : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
 
     public static bool GameIsPaused = false;
     
     public GameObject pauseMenu;
+    public GameObject frisbee;
+
+    public GameObject playerGoal;
+    public GameObject ennemyGoal;
     
     // Start is called before the first frame update
     void Start()
@@ -18,6 +22,11 @@ public class GameController : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+    {
+        CheckForPause();
+    }
+
+    public void CheckForPause()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -31,7 +40,7 @@ public class GameController : MonoBehaviour
             }
         }
     }
-
+    
     public void ResumeGame()
     {
         pauseMenu.SetActive(false);
