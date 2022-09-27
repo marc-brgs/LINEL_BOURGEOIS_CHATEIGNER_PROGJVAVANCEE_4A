@@ -86,9 +86,18 @@ public class FrisbeeController : MonoBehaviour
             }
         }
         
-        if (collision.gameObject.CompareTag("Goal")) // Goal (not working)
+    }
+
+
+    void OnTriggerEnter(Collider collision)
+    {
+        if (collision.CompareTag("Goal")) 
         {
             Debug.Log("GOOOOOOOOOOOAL!");
         }
     }
+
+
+
+
 }
