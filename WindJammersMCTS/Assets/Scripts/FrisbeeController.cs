@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class FrisbeeController : MonoBehaviour
 {
+
+    public static FrisbeeController instance;
+
     private bool isFixed = false;
     private string lastHolder = "Player";
 
@@ -16,6 +19,19 @@ public class FrisbeeController : MonoBehaviour
 
     public GameObject player;
     public GameObject ennemy;
+
+    void Awake()
+    {
+        if (instance != null)
+        {
+            Debug.LogWarning("Il y a plus d'une instance de Frisbee dans la scene");
+            return;
+        }
+        instance = this;
+    }
+
+
+
 
     void Start()
     {
@@ -100,6 +116,26 @@ public class FrisbeeController : MonoBehaviour
         {
             Scores.instance.EnnemyScore += 1;
 
+        }
+    }
+
+    public void Shoot()
+    {
+       if(isFixed == true)
+        {
+            isFixed = false;
+            if (lastHolder == "Player")
+            {
+                transform.position = new Vector3(transform.position.x, 2.25f, transform.position.z);
+                directionX = -1;
+                directionY = 1;
+            }
+            else if (lastHolder == "Ennemy")
+            {
+                transform.position = new Vector3(transform.position.x, 2.25f, transform.position.z);
+                directionX = 1;
+                directionY = -1;
+            }
         }
     }
 

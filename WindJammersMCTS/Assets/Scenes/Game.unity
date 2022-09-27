@@ -369,6 +369,7 @@ GameObject:
   - component: {fileID: 172957055}
   - component: {fileID: 172957054}
   - component: {fileID: 172957056}
+  - component: {fileID: 172957057}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -494,6 +495,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb7e0c962d952e749adf8ea88b435a00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &172957057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 172957049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: bdd5e5b088b5270439960e2231ddcc8f, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 577aee48-3cb8-44b7-be78-650977f249ea
+    m_ActionName: Player/Shoot[/DualShock4GamepadHID/rightShoulder]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &202943395
 GameObject:
   m_ObjectHideFlags: 0

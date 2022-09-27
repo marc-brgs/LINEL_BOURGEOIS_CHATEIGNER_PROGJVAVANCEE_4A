@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+
 
 public class PlayerController : MonoBehaviour
 {
@@ -17,15 +19,14 @@ public class PlayerController : MonoBehaviour
     private float dashingPower = 30f;
     private float dashX = 0f;
     private float dashY = 0f;
-    
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
     {
         GetInputs();
     }
@@ -44,7 +45,7 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(Dash());
     }
     private void Move()
-    { 
+    {
         rb.velocity = new Vector3(horizontalInput, 0, verticalInput) * moveSpeed;
     }
 
@@ -58,10 +59,10 @@ public class PlayerController : MonoBehaviour
             dashX = horizontalInput / Mathf.Abs(horizontalInput);
         if(verticalInput != 0f)
             dashY = verticalInput / Mathf.Abs(verticalInput);
-        
+
         rb.velocity = new Vector3(dashX, 0f, dashY) * dashingPower;
-        
-        
+
+
         yield return new WaitForSeconds(dashingTime);
         isDashing = false;
         canDash = true;
