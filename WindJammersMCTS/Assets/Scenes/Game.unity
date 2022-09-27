@@ -1098,6 +1098,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0c76e40753b7b6448e6a03365b6bafb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GameIsPaused: 0
   pauseMenu: {fileID: 574847949}
   frisbee: {fileID: 1150344354}
   playerGoal: {fileID: 1115279038}
@@ -2123,7 +2124,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0 - 0
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
@@ -2214,7 +2215,7 @@ GameObject:
   - component: {fileID: 1115279040}
   m_Layer: 0
   m_Name: Goal player
-  m_TagString: Goal
+  m_TagString: PGoal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2973,6 +2974,7 @@ GameObject:
   - component: {fileID: 1488024001}
   - component: {fileID: 1488024003}
   - component: {fileID: 1488024002}
+  - component: {fileID: 1488024004}
   m_Layer: 5
   m_Name: Scores Panel
   m_TagString: Untagged
@@ -3039,6 +3041,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1488024000}
   m_CullTransparentMesh: 1
+--- !u!114 &1488024004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1488024000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5e1940a56025294d9245edde0651bef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  score: {fileID: 1100160436}
+  PlayerScore: 0
+  EnnemyScore: 0
 --- !u!1 &1946216812
 GameObject:
   m_ObjectHideFlags: 0
@@ -3053,7 +3070,7 @@ GameObject:
   - component: {fileID: 1946216814}
   m_Layer: 0
   m_Name: Goal ennemy
-  m_TagString: Goal
+  m_TagString: EGoal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

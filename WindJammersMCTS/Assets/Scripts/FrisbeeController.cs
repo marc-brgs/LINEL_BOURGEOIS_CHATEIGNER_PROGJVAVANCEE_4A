@@ -91,9 +91,14 @@ public class FrisbeeController : MonoBehaviour
 
     void OnTriggerEnter(Collider collision)
     {
-        if (collision.CompareTag("Goal")) 
+        if (collision.CompareTag("EGoal")) 
         {
-            Debug.Log("GOOOOOOOOOOOAL!");
+            Scores.instance.PlayerScore += 1;
+        }
+
+        if (collision.CompareTag("PGoal"))
+        {
+            Scores.instance.EnnemyScore += 1;
         }
     }
 
