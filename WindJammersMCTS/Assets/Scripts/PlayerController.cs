@@ -20,6 +20,14 @@ public class PlayerController : MonoBehaviour
     private float dashX = 0f;
     private float dashY = 0f;
 
+    private PlayerInput playerInput;
+    private InputAction Shoot;
+
+    private void Awake()
+        {
+            playerInput = new PlayerInput();
+        }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,7 +37,18 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         GetInputs();
+
+        playerInput.Player.Shoot.performed += DoShoot;
+        playerInput.Player.Shoot.Enable();
     }
+
+
+    private void DoShoot(InputAction.CallbackContext obj)
+        {
+            FrisbeeController.instance.Shoot();
+        }
+
+
     void FixedUpdate()
     {
         if (isDashing) return;
