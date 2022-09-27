@@ -5,15 +5,28 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-
-    public static bool GameIsPaused = false;
+    public static GameManager instance;
+    public bool GameIsPaused = false;
     
     public GameObject pauseMenu;
     public GameObject frisbee;
 
     public GameObject playerGoal;
     public GameObject ennemyGoal;
-    
+
+
+
+    void Awake()
+    {
+        if (instance != null)
+        {
+            Debug.LogWarning("Il y a plus d'une instance de GameManager dans la scene");
+            return;
+        }
+        instance = this;
+    }
+
+
     // Start is called before the first frame update
     void Start()
     {

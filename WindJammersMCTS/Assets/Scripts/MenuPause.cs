@@ -7,6 +7,8 @@ public class MenuPause : MonoBehaviour
 {
     public void BackToMenuPrincipal()
     {
+        Time.timeScale = 1f;
+        GameManager.instance.GameIsPaused = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
 }
