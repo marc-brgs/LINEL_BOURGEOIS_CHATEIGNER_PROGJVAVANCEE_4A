@@ -7,7 +7,8 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     private float moveSpeed = 26f;
-
+    public string operatingSide;
+    
     private Rigidbody rb;
 
     private float horizontalInput = 0f;
@@ -23,6 +24,13 @@ public class PlayerController : MonoBehaviour
     private PlayerInput playerInput;
     private InputAction Shoot;
 
+    private float entityRadius;
+    private GameObject borderTop;
+    private GameObject borderBottom;
+    private GameObject borderLeft;
+    private GameObject borderRight;
+    private float borderRadius;
+    
     private void Awake()
     { 
         playerInput = new PlayerInput();
@@ -32,6 +40,13 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+
+        entityRadius = this.transform.localScale.x / 1.2f;
+        borderTop = GameManager.instance.borderTop;
+        borderBottom = GameManager.instance.borderBottom;
+        borderLeft = GameManager.instance.borderLeft;
+        borderRight = GameManager.instance.borderRight;
+        borderRadius = GameManager.instance.borderRadius;
     }
 
     private void OnEnable()
@@ -53,6 +68,8 @@ public class PlayerController : MonoBehaviour
     
     void FixedUpdate()
     {
+        checkCollisions();
+        
         if (isDashing) return;
         Move();
     }
@@ -91,5 +108,39 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(dashingTime);
         isDashing = false;
         canDash = true;
+    }
+
+    private void checkCollisions()
+    {
+        if (operatingSide == "Left" && this.transform.position.x + entityRadius > 0) // Left side middle border
+        {
+            if (horizontalInput > 0)
+                horizontalInput = 0;
+        }
+        if (operatingSide == "Right" && this.transform.position.x - entityRadius < 0) // Right side middle border
+        {
+            if (horizontalInput < 0)
+                horizontalInput = 0;
+        }
+        if (this.transform.position.z + entityRadius > borderTop.transform.position.z - borderRadius) // Border top
+        {
+            if (verticalInput > 0)
+                verticalInput = 0;
+        }
+        if (this.transform.position.z - entityRadius < borderBottom.transform.position.z + borderRadius) // Border bottom
+        {
+            if (verticalInput < 0)
+                verticalInput = 0;
+        }
+        if (this.transform.position.x - entityRadius < borderLeft.transform.position.x + borderRadius) // Border left
+        {
+            if (horizontalInput < 0)
+                horizontalInput = 0;
+        }
+        if (this.transform.position.x + entityRadius > borderRight.transform.position.x - borderRadius) // Border right
+        {
+            if (horizontalInput > 0)
+                horizontalInput = 0;
+        }
     }
 }

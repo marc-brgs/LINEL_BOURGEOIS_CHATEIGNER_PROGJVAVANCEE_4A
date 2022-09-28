@@ -12,7 +12,17 @@ public class GameManager : MonoBehaviour
     public GameObject menuFin;
     public GameObject frisbee;
     public GameObject ennemy;
+    public bool isFinished = false;
+    
+    public GameObject borderTop;
+    public GameObject borderBottom;
+    public GameObject borderLeft;
+    public GameObject borderRight;
+    public float borderRadius;
 
+    public Vector3 playerPosition;
+    public Vector3 ennemyPosition;
+    
     private string gameMode = "Random"; // Default gameMode
     private bool gameEnded = false;
 
@@ -30,6 +40,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        borderRadius = borderTop.transform.localScale.z;
+        
         if(GameConfig.instance != null) // Recover gameMode selected from menu
             gameMode = GameConfig.instance.gameMode;
         

@@ -7,7 +7,7 @@ public class FrisbeeController : MonoBehaviour
 	
     public static FrisbeeController instance;
 
-    private bool isHeld = false;
+    public bool isHeld = false;
     private bool isMoving = false;
     public string lastHolder = "Ennemy";
 
@@ -20,6 +20,15 @@ public class FrisbeeController : MonoBehaviour
 
     public GameObject player;
     public GameObject ennemy;
+    public GameObject borderTop;
+    public GameObject borderBottom;
+    public GameObject goalP;
+    public GameObject goalE;
+
+    private float frisbeeRadius;
+    private float entityRadius;
+    private float borderRadius;
+    private float goalRadius;
 
     void Awake()
     {
@@ -30,19 +39,22 @@ public class FrisbeeController : MonoBehaviour
         }
         instance = this;
     }
-
-
-
+    
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        
+        frisbeeRadius = this.transform.localScale.x / 2;
+        entityRadius = player.transform.localScale.x / 2;
+        borderRadius = borderTop.transform.localScale.z / 2;
+        goalRadius = goalP.transform.localScale.x / 2;
     }
 
     void Update()
     {
         float distPlayer = Vector3.Distance(player.transform.position, transform.position);
-        if (distPlayer < 2.5f && lastHolder != "Player") // Catch
+        if (!isHeld && distPlayer < 2.5f && lastHolder != "Player") // Catch
         {
             isHeld = true;
             isMoving = true; // first catch
@@ -50,7 +62,7 @@ public class FrisbeeController : MonoBehaviour
         }
 
         float distEnnemy = Vector3.Distance(ennemy.transform.position, transform.position);
-        if (distEnnemy < 2.5f && lastHolder != "Ennemy") // Catch
+        if (!isHeld && distEnnemy < 2.5f && lastHolder != "Ennemy") // Catch
         {
             isHeld = true;
             isMoving = true; // first catch
@@ -76,6 +88,8 @@ public class FrisbeeController : MonoBehaviour
     }
     void FixedUpdate()
     {
+        checkCollisions();
+        
         if (isMoving && !isHeld) // Move frisbee
         {
             rb.velocity = new Vector3(directionX, 0, directionY) * frisbeeSpeed;
@@ -89,25 +103,19 @@ public class FrisbeeController : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter(Collision collision)
+    public void checkCollisions()
     {
-        if (collision.gameObject.CompareTag("Border")) // Bounce
+        if (this.transform.position.z + frisbeeRadius < borderTop.transform.position.z - borderRadius) // frisbee collide border top
         {
-            if (collision.transform.localScale.x > collision.transform.localScale.z) // Horizontal border
-            {
-                directionY = -directionY;
-            }
-            else // Vertical border
-            {
-                directionX = -directionX;
-            }
+            directionY = -directionY;
         }
 
-    }
-    
-    void OnTriggerEnter(Collider collision)
-    {
-        if (collision.CompareTag("EGoal")) // Player scored
+        if (this.transform.position.z - frisbeeRadius > borderBottom.transform.position.z + borderRadius) // frisbee collide border bottom
+        {
+            directionY = -directionY;
+        }
+
+        if (this.transform.position.x < goalE.transform.position.x + goalRadius) // frisbee half enter ennemy goal - Player scored
         {
             Scores.instance.PlayerScore += 1;
             lastHolder = "Player";
@@ -120,7 +128,7 @@ public class FrisbeeController : MonoBehaviour
                 GameManager.instance.EndGame();
         }
 
-        if (collision.CompareTag("PGoal")) // Ennemy scored
+        if (this.transform.position.x > goalP.transform.position.x - goalRadius) // frisbee half enter player goal - Ennemy scored
         {
             Scores.instance.EnnemyScore += 1;
             lastHolder = "Ennemy";
@@ -133,7 +141,7 @@ public class FrisbeeController : MonoBehaviour
                 GameManager.instance.EndGame();
         }
     }
-
+    
     public void Shoot()
     {
        if(isHeld == true)

@@ -1,42 +1,110 @@
 using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json.Serialization;
+using UnityEditor.Search;
 using UnityEngine;
 
 public class RandomAgent : MonoBehaviour
 {
-    bool actionExecute = true;
+    private bool actionExecute = true;
+    
     private Rigidbody rb;
+    private float horizontalInput;
+    private float verticalInput;
+    
+    private float entityRadius;
+    private GameObject borderTop;
+    private GameObject borderBottom;
+    private GameObject borderLeft;
+    private GameObject borderRight;
+    private float borderRadius;
+    
+    public string operatingSide;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        
+        entityRadius = this.transform.localScale.x / 1.2f;
+        borderTop = GameManager.instance.borderTop;
+        borderBottom = GameManager.instance.borderBottom;
+        borderLeft = GameManager.instance.borderLeft;
+        borderRight = GameManager.instance.borderRight;
+        borderRadius = GameManager.instance.borderRadius;
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         if (actionExecute)
         {
-            StartCoroutine(doAction());
+            StartCoroutine(randomizeInput());
+            tryToShoot();
         }
-            
+    }
+    
+    void FixedUpdate()
+    {
+        checkCollisions();
+        Move();
     }
 
-    private IEnumerator doAction()
+    private IEnumerator randomizeInput()
     {
         actionExecute = false;
-        rb.velocity = new Vector3( Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)) * 26f;
+        horizontalInput = Random.Range(-1f, 1f);
+        verticalInput = Random.Range(-1f, 1f);
+        yield return new WaitForSeconds(1f);
+        actionExecute = true;
+    }
 
-        if (FrisbeeController.instance.lastHolder == "Ennemy")
+    private void Move()
+    {
+        rb.velocity = new Vector3(horizontalInput, 0, verticalInput) * 26f;
+    }
+
+    private void tryToShoot()
+    {
+        if (FrisbeeController.instance.isHeld && FrisbeeController.instance.lastHolder == "Ennemy")
         {
-            if (Random.Range(0, 10) > 3) // 7/11
+            if (Random.Range(1, 10) > 3) // 70% chance to shoot
             {
                 FrisbeeController.instance.Shoot();
             }
         }
-        yield return new WaitForSeconds(1f);
-        actionExecute = true;
+    }
+    
+    private void checkCollisions()
+    {
+        if (operatingSide == "Left" && this.transform.position.x + entityRadius > 0) // Left side middle border
+        {
+            if (horizontalInput > 0)
+                horizontalInput = 0;
+        }
+        if (operatingSide == "Right" && this.transform.position.x - entityRadius < 0) // Right side middle border
+        {
+            if (horizontalInput < 0)
+                horizontalInput = 0;
+        }
+        if (this.transform.position.z + entityRadius > borderTop.transform.position.z - borderRadius) // Border top
+        {
+            if (verticalInput > 0)
+                verticalInput = 0;
+        }
+        if (this.transform.position.z - entityRadius < borderBottom.transform.position.z + borderRadius) // Border bottom
+        {
+            if (verticalInput < 0)
+                verticalInput = 0;
+        }
+        if (this.transform.position.x - entityRadius < borderLeft.transform.position.x + borderRadius) // Border left
+        {
+            if (horizontalInput < 0)
+                horizontalInput = 0;
+        }
+        if (this.transform.position.x + entityRadius > borderRight.transform.position.x - borderRadius) // Border right
+        {
+            if (horizontalInput > 0)
+                horizontalInput = 0;
+        }
     }
 }

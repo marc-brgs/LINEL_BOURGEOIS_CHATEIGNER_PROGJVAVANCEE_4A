@@ -365,7 +365,6 @@ GameObject:
   - component: {fileID: 172957053}
   - component: {fileID: 172957052}
   - component: {fileID: 172957051}
-  - component: {fileID: 172957050}
   - component: {fileID: 172957054}
   - component: {fileID: 172957056}
   - component: {fileID: 172957057}
@@ -376,19 +375,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!135 &172957050
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 172957049}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &172957051
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -482,6 +468,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb7e0c962d952e749adf8ea88b435a00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  operatingSide: Right
 --- !u!114 &172957057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -657,7 +644,6 @@ GameObject:
   - component: {fileID: 405104258}
   - component: {fileID: 405104257}
   - component: {fileID: 405104256}
-  - component: {fileID: 405104255}
   m_Layer: 0
   m_Name: Wall bottom
   m_TagString: Border
@@ -665,19 +651,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!65 &405104255
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 405104254}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &405104256
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1426,7 +1399,7 @@ GameObject:
   - component: {fileID: 624771243}
   - component: {fileID: 624771242}
   m_Layer: 0
-  m_Name: GameController
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1449,6 +1422,12 @@ MonoBehaviour:
   menuFin: {fileID: 179987933}
   frisbee: {fileID: 1150344354}
   ennemy: {fileID: 813707088}
+  isFinished: 0
+  borderTop: {fileID: 1418066390}
+  borderBottom: {fileID: 405104254}
+  borderLeft: {fileID: 993012866}
+  borderRight: {fileID: 1379179113}
+  borderRadius: 0
 --- !u!4 &624771243
 Transform:
   m_ObjectHideFlags: 0
@@ -1704,7 +1683,6 @@ GameObject:
   - component: {fileID: 813707095}
   - component: {fileID: 813707094}
   - component: {fileID: 813707093}
-  - component: {fileID: 813707092}
   - component: {fileID: 813707090}
   - component: {fileID: 813707089}
   - component: {fileID: 813707096}
@@ -1727,6 +1705,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb7e0c962d952e749adf8ea88b435a00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  operatingSide: Left
 --- !u!54 &813707090
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1743,19 +1722,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
---- !u!135 &813707092
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 813707088}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &813707093
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1833,6 +1799,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97b03acb0dc2357409fb5217808383a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  operatingSide: Left
 --- !u!1 &843510062
 GameObject:
   m_ObjectHideFlags: 0
@@ -2842,7 +2809,6 @@ GameObject:
   - component: {fileID: 1115279039}
   - component: {fileID: 1115279042}
   - component: {fileID: 1115279041}
-  - component: {fileID: 1115279040}
   m_Layer: 0
   m_Name: Goal player
   m_TagString: PGoal
@@ -2865,19 +2831,6 @@ Transform:
   m_Father: {fileID: 916416772}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1115279040
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1115279038}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1115279041
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2962,8 +2915,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e31f0011ef5f6c4cba562942b9a482b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lastHolder: Ennemy
   player: {fileID: 172957049}
   ennemy: {fileID: 813707088}
+  borderTop: {fileID: 1418066390}
+  borderBottom: {fileID: 405104254}
+  goalP: {fileID: 1115279038}
+  goalE: {fileID: 1946216812}
 --- !u!54 &1150344356
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2989,7 +2947,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 1150344354}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5000001
   m_Height: 15.000004
   m_Direction: 1
@@ -3101,7 +3059,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 1
+  m_Time: 0.5
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -3118,7 +3076,7 @@ TrailRenderer:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.43063584
+        time: 0.5
         value: 0
         inSlope: -3.6748369
         outSlope: -3.6748369
@@ -3544,7 +3502,6 @@ GameObject:
   - component: {fileID: 1418066394}
   - component: {fileID: 1418066393}
   - component: {fileID: 1418066392}
-  - component: {fileID: 1418066391}
   m_Layer: 0
   m_Name: Wall top
   m_TagString: Border
@@ -3552,19 +3509,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!65 &1418066391
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1418066390}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1418066392
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3965,7 +3909,6 @@ GameObject:
   - component: {fileID: 1946216813}
   - component: {fileID: 1946216816}
   - component: {fileID: 1946216815}
-  - component: {fileID: 1946216814}
   m_Layer: 0
   m_Name: Goal ennemy
   m_TagString: EGoal
@@ -3988,19 +3931,6 @@ Transform:
   m_Father: {fileID: 916416772}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1946216814
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1946216812}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1946216815
 MeshRenderer:
   m_ObjectHideFlags: 0
