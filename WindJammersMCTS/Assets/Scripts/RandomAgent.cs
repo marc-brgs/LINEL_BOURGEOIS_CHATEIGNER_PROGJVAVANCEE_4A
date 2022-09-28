@@ -8,7 +8,6 @@ public class RandomAgent : MonoBehaviour
 {
     private bool actionExecute = true;
     
-    private Rigidbody rb;
     private float horizontalInput;
     private float verticalInput;
     
@@ -24,8 +23,6 @@ public class RandomAgent : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        
         entityRadius = this.transform.localScale.x / 1.2f;
         borderTop = GameManager.instance.borderTop;
         borderBottom = GameManager.instance.borderBottom;
@@ -60,7 +57,7 @@ public class RandomAgent : MonoBehaviour
 
     private void Move()
     {
-        rb.velocity = new Vector3(horizontalInput, 0, verticalInput) * 26f;
+        this.transform.position = new Vector3(this.transform.position.x + horizontalInput/1.5f, 2.5f, this.transform.position.z + verticalInput/1.5f);
     }
 
     private void tryToShoot()

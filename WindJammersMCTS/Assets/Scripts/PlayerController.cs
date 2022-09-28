@@ -8,8 +8,6 @@ public class PlayerController : MonoBehaviour
 {
     private float moveSpeed = 26f;
     public string operatingSide;
-    
-    private Rigidbody rb;
 
     private float horizontalInput = 0f;
     private float verticalInput = 0f;
@@ -39,8 +37,6 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-
         entityRadius = this.transform.localScale.x / 1.2f;
         borderTop = GameManager.instance.borderTop;
         borderBottom = GameManager.instance.borderBottom;
@@ -84,7 +80,7 @@ public class PlayerController : MonoBehaviour
     }
     private void Move()
     {
-        rb.velocity = new Vector3(horizontalInput, 0, verticalInput) * moveSpeed;
+        this.transform.position = new Vector3(this.transform.position.x + horizontalInput/1.5f, 2.5f, this.transform.position.z + verticalInput/1.5f);
     }
 
     private IEnumerator Dash()
@@ -102,8 +98,7 @@ public class PlayerController : MonoBehaviour
         if(verticalInput != 0f)
             dashY = verticalInput / Mathf.Abs(verticalInput);
         
-        rb.velocity = new Vector3(dashX, 0f, dashY) * dashingPower;
-
+        this.transform.position = new Vector3(this.transform.position.x + dashX * 5, 2.5f, this.transform.position.z + dashY * 5);
 
         yield return new WaitForSeconds(dashingTime);
         isDashing = false;

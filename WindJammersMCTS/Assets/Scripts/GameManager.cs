@@ -20,10 +20,13 @@ public class GameManager : MonoBehaviour
     public GameObject borderRight;
     public float borderRadius;
 
+    public GameState State;
+
+    // GameState
     public Vector3 playerPosition;
     public Vector3 ennemyPosition;
     
-    private string gameMode = "Random"; // Default gameMode
+    private string gameMode = "MCTS"; // Default gameMode
     private bool gameEnded = false;
 
     void Awake()
@@ -48,17 +51,19 @@ public class GameManager : MonoBehaviour
         if (gameMode == "Solo")
         {
             ennemy.GetComponent<RandomAgent>().enabled = false; // remove random agent
+            ennemy.GetComponent<MCTSAgent>().enabled = false; // remove MCTS agent
         }
         if (gameMode == "Duo")
         {
             ennemy.GetComponent<PlayerController>().enabled = false; // remove controls
             ennemy.GetComponent<RandomAgent>().enabled = false; // remove random agent
+            ennemy.GetComponent<MCTSAgent>().enabled = false; // remove MCTS agent
         }
 
         if (gameMode == "Random")
         {
             ennemy.GetComponent<PlayerController>().enabled = false; // remove controls
-            
+            ennemy.GetComponent<MCTSAgent>().enabled = false; // remove MCTS agent
         }
         if (gameMode == "MCTS")
         {
@@ -118,5 +123,19 @@ public class GameManager : MonoBehaviour
         menuFin.SetActive(true);
         Time.timeScale = 0f;
         GameObject.Find("UI/Menu Fin/Texte").GetComponent<TMPro.TextMeshProUGUI>().text = Scores.instance.EnnemyScore.ToString() + '-' + Scores.instance.PlayerScore.ToString();
+    }
+
+    public void executeAction(string action)
+    {
+        switch (action)
+        {
+            case "UP":
+                break;
+        }
+    }
+
+    public void updateGameState()
+    {
+        
     }
 }

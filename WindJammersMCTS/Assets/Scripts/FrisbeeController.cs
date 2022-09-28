@@ -92,7 +92,7 @@ public class FrisbeeController : MonoBehaviour
         
         if (isMoving && !isHeld) // Move frisbee
         {
-            rb.velocity = new Vector3(directionX, 0, directionY) * frisbeeSpeed;
+            this.transform.position = new Vector3(this.transform.position.x + directionX/2, 2.25f, this.transform.position.z + directionY/2);
         }
         else if(isHeld)// Stick
         {
@@ -122,7 +122,6 @@ public class FrisbeeController : MonoBehaviour
             this.transform.position = new Vector3(-6f, 2.25f, 0f); // Set frisbee in ennemy zone
             isMoving = false;
             isHeld = false;
-            rb.velocity = new Vector3(0, 0, 0);
 
             if (Scores.instance.PlayerScore == 10)
                 GameManager.instance.EndGame();
@@ -135,8 +134,7 @@ public class FrisbeeController : MonoBehaviour
             this.transform.position = new Vector3(6f, 2.25f, 0f); // Set frisbee in player zone
             isMoving = false;
             isHeld = false;
-            rb.velocity = new Vector3(0, 0, 0);
-            
+
             if (Scores.instance.EnnemyScore == 10)
                 GameManager.instance.EndGame();
         }
