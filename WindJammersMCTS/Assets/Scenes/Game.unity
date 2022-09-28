@@ -365,7 +365,6 @@ GameObject:
   - component: {fileID: 172957053}
   - component: {fileID: 172957052}
   - component: {fileID: 172957051}
-  - component: {fileID: 172957054}
   - component: {fileID: 172957056}
   - component: {fileID: 172957057}
   m_Layer: 0
@@ -440,22 +439,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &172957054
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 172957049}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 116
-  m_CollisionDetection: 0
 --- !u!114 &172957056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1428,6 +1411,9 @@ MonoBehaviour:
   borderLeft: {fileID: 993012866}
   borderRight: {fileID: 1379179113}
   borderRadius: 0
+  State: {fileID: 0}
+  playerPosition: {x: 0, y: 0, z: 0}
+  ennemyPosition: {x: 0, y: 0, z: 0}
 --- !u!4 &624771243
 Transform:
   m_ObjectHideFlags: 0
@@ -1683,9 +1669,9 @@ GameObject:
   - component: {fileID: 813707095}
   - component: {fileID: 813707094}
   - component: {fileID: 813707093}
-  - component: {fileID: 813707090}
   - component: {fileID: 813707089}
   - component: {fileID: 813707096}
+  - component: {fileID: 813707097}
   m_Layer: 0
   m_Name: Ennemy
   m_TagString: Untagged
@@ -1706,22 +1692,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   operatingSide: Left
---- !u!54 &813707090
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 813707088}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 116
-  m_CollisionDetection: 0
 --- !u!23 &813707093
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1800,6 +1770,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   operatingSide: Left
+--- !u!114 &813707097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 813707088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 523f6c91a632da94a9d3a14ff481ef9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &843510062
 GameObject:
   m_ObjectHideFlags: 0
@@ -2892,8 +2874,6 @@ GameObject:
   - component: {fileID: 1150344360}
   - component: {fileID: 1150344359}
   - component: {fileID: 1150344358}
-  - component: {fileID: 1150344357}
-  - component: {fileID: 1150344356}
   - component: {fileID: 1150344355}
   - component: {fileID: 1150344361}
   m_Layer: 0
@@ -2915,6 +2895,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e31f0011ef5f6c4cba562942b9a482b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isHeld: 0
   lastHolder: Ennemy
   player: {fileID: 172957049}
   ennemy: {fileID: 813707088}
@@ -2922,36 +2903,6 @@ MonoBehaviour:
   borderBottom: {fileID: 405104254}
   goalP: {fileID: 1115279038}
   goalE: {fileID: 1946216812}
---- !u!54 &1150344356
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1150344354}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 84
-  m_CollisionDetection: 0
---- !u!136 &1150344357
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1150344354}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.5000001
-  m_Height: 15.000004
-  m_Direction: 1
-  m_Center: {x: 0.00000003973643, y: 4.5899944, z: -0.00000007947286}
 --- !u!23 &1150344358
 MeshRenderer:
   m_ObjectHideFlags: 0

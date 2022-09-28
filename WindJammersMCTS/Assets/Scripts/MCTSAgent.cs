@@ -59,6 +59,7 @@ public class MCTSAgent : MonoBehaviour
         return possibleActions;
     }
     
+    //#1. Select a node if 1: we have more valid feasible moves or 2: it is terminal 
     private void Selection(MCTSNode node)
     {
         // random exploit explo
@@ -69,7 +70,8 @@ public class MCTSAgent : MonoBehaviour
         }*/
         
     }
-    
+
+    //#2. Expand a node by creating a new move and returning the node
     private void Expansion(MCTSNode selectedNode)
     {
         
@@ -77,8 +79,11 @@ public class MCTSAgent : MonoBehaviour
         GameState simulateState = selectedNode.State;
         // playmove
         GameManager.instance.executeAction(selectedNode.action);
+        
+        // créer nouveau node enfant (définir son parent au selected)
     }
-
+    
+    //#3. Roll-out. Simulate a game with a given policy and return the value
     private int Simulation(MCTSNode node, int numSim)
     {
         while (!GameManager.instance.isFinished)
