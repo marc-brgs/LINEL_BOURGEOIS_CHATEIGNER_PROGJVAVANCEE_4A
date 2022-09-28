@@ -27,11 +27,11 @@ public class RandomAgent : MonoBehaviour
     private IEnumerator doAction()
     {
         actionExecute = false;
-        rb.velocity = new Vector3( Random.Range(-0.6f, 0.8f), 0, Random.Range(-0.8f, 0.8f)) * 30f;
+        rb.velocity = new Vector3( Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)) * 26f;
 
         if (FrisbeeController.instance.lastHolder == "Ennemy")
         {
-            if (Random.Range(0, 10) > 3)
+            if (Random.Range(0, 10) > 3) // 7/11
             {
                 FrisbeeController.instance.Shoot();
             }

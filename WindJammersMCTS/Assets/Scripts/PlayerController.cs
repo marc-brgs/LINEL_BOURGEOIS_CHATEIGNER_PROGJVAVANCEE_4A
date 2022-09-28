@@ -46,11 +46,13 @@ public class PlayerController : MonoBehaviour
             FrisbeeController.instance.Shoot();
     }
 
-
-    void FixedUpdate()
+    void Update()
     {
         GetInputs();
-        
+    }
+    
+    void FixedUpdate()
+    {
         if (isDashing) return;
         Move();
     }
@@ -70,15 +72,19 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator Dash()
     {
+        if (horizontalInput == 0f && verticalInput == 0)
+            yield return new WaitForSeconds(0f);
+        
         isDashing = true;
         canDash = false;
         dashX = 0f;
         dashY = 0f;
+
         if (horizontalInput != 0f)
             dashX = horizontalInput / Mathf.Abs(horizontalInput);
         if(verticalInput != 0f)
             dashY = verticalInput / Mathf.Abs(verticalInput);
-
+        
         rb.velocity = new Vector3(dashX, 0f, dashY) * dashingPower;
 
 
