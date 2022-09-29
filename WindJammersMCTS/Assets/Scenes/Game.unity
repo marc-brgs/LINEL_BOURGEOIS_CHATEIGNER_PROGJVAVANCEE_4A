@@ -1401,17 +1401,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GameIsPaused: 0
+  isFinished: 0
+  endPoint: 0
   pauseMenu: {fileID: 574847949}
   menuFin: {fileID: 179987933}
   frisbee: {fileID: 1150344354}
+  player: {fileID: 0}
   ennemy: {fileID: 813707088}
-  isFinished: 0
   borderTop: {fileID: 1418066390}
   borderBottom: {fileID: 405104254}
   borderLeft: {fileID: 993012866}
   borderRight: {fileID: 1379179113}
   borderRadius: 0
+  goalP: {fileID: 1115279038}
+  goalE: {fileID: 1946216812}
   State: {fileID: 0}
+  isScored: 1
   playerPosition: {x: 0, y: 0, z: 0}
   ennemyPosition: {x: 0, y: 0, z: 0}
 --- !u!4 &624771243
@@ -2896,13 +2901,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isHeld: 0
+  isMoving: 0
   lastHolder: Ennemy
   player: {fileID: 172957049}
   ennemy: {fileID: 813707088}
   borderTop: {fileID: 1418066390}
   borderBottom: {fileID: 405104254}
-  goalP: {fileID: 1115279038}
-  goalE: {fileID: 1946216812}
 --- !u!23 &1150344358
 MeshRenderer:
   m_ObjectHideFlags: 0

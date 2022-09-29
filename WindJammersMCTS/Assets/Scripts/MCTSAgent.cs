@@ -15,15 +15,32 @@ public class MCTSAgent : MonoBehaviour
         public int nbPlayed;
         public bool isLeaf;
         // private float value = nbWin / nbPlayed;
+
+        public MCTSNode(GameState state)
+        {
+            this.State = state;
+        }
     }
     
     private float max;
     private string bestAction;
     
+    private int numIteration = 100;
+    private int numSim = 10;
+    
     // Start is called before the first frame update
     void Start()
     {
+        /*MCTSNode startNode = new MCTSNode(GameManager.instance.GetCurrentGameState());
+        for (int i = 0; i < numIteration; i++)
+        {
+            MCTSNode selectedNode = Selection(startNode);
+            MCTSNode newNode = Expansion(selectedNode);
+            int numWin = Simulation(newNode, numSim);
+            BackPropogation(newNode, numWin, numSim);
+        }*/
         
+        // GameManagerInstance.PlayMove(simulationGameState, player, selectedMove)
     }
 
     // Update is called once per frame
@@ -52,6 +69,11 @@ public class MCTSAgent : MonoBehaviour
         */
         
     }
+
+    private bool checkIsLeaf(MCTSNode node)
+    {
+        return true;
+    }
     
     private string[] GetPossibleAction()
     {
@@ -60,7 +82,7 @@ public class MCTSAgent : MonoBehaviour
     }
     
     //#1. Select a node if 1: we have more valid feasible moves or 2: it is terminal 
-    private void Selection(MCTSNode node)
+    private MCTSNode Selection(MCTSNode node)
     {
         // random exploit explo
        /* while (node.Children.Count > 0)
@@ -68,11 +90,12 @@ public class MCTSAgent : MonoBehaviour
             exploitation - on descent au plus bas possible en fonction du plus gros score
             exploration - choix random
         }*/
-        
+
+       return node; // tmp
     }
 
     //#2. Expand a node by creating a new move and returning the node
-    private void Expansion(MCTSNode selectedNode)
+    private MCTSNode Expansion(MCTSNode selectedNode)
     {
         
         // copie du gamestate
@@ -81,23 +104,26 @@ public class MCTSAgent : MonoBehaviour
         GameManager.instance.executeAction(selectedNode.action);
         
         // créer nouveau node enfant (définir son parent au selected)
+        return selectedNode; // tmp
     }
     
     //#3. Roll-out. Simulate a game with a given policy and return the value
     private int Simulation(MCTSNode node, int numSim)
     {
-        while (!GameManager.instance.isFinished)
+        int numWin = 0;
+        for (int i = 0; i < numSim; i++)
         {
+            while (!node.State.getScored()) // but
+            {
             
+            }
         }
-        return 0;
+        return numWin;
     }
     
-    private void BackPropogation(MCTSNode nodeToExplore, int numWin, int numPlayed)
+    private void BackPropogation(MCTSNode nodeToExplore, int numWin, int numSim)
     {
         // !Node.isFeuille
         // remonte
     }
-    
-    // GameManagerInstace.PlayMove(simulationGameState, player, selectedMove)
 }
