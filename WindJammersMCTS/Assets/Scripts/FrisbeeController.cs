@@ -25,6 +25,8 @@ public class FrisbeeController : MonoBehaviour
     private float frisbeeRadius;
     private float entityRadius;
     private float borderRadius;
+    
+    GameState state;
 
     void Awake()
     {
@@ -39,90 +41,90 @@ public class FrisbeeController : MonoBehaviour
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        
         frisbeeRadius = this.transform.localScale.x / 2;
         entityRadius = player.transform.localScale.x / 2;
         borderRadius = borderTop.transform.localScale.z / 2;
+
+        state = GameManager.instance.State;
     }
 
     void Update()
     {
-        float distPlayer = Vector3.Distance(player.transform.position, transform.position);
-        if (!isHeld && distPlayer < 2.5f && lastHolder != "Player") // Catch
+        float distPlayer = Vector3.Distance(state.playerPosition, state.frisbeePosition);
+        if (!state.isHeld && distPlayer < 2.5f && state.lastHolder != "Player") // Catch
         {
-            isHeld = true;
+            state.isHeld = true;
             isMoving = true; // first catch
-            lastHolder = "Player";
+            state.lastHolder = "Player";
         }
-
-        float distEnnemy = Vector3.Distance(ennemy.transform.position, transform.position);
-        if (!isHeld && distEnnemy < 2.5f && lastHolder != "Ennemy") // Catch
+        
+        float distEnnemy = Vector3.Distance(state.ennemyPosition, state.frisbeePosition);
+        if (!state.isHeld && distEnnemy < 2.5f && state.lastHolder != "Ennemy") // Catch
         {
-            isHeld = true;
+            state.isHeld = true;
             isMoving = true; // first catch
-            lastHolder = "Ennemy";
+            state.lastHolder = "Ennemy";
         }
 
         if(isHeld && Input.GetMouseButtonDown(0)) // Release frisbee
         {
-            isHeld = false;
-            if (lastHolder == "Player")
+            state.isHeld = false;
+            if (state.lastHolder == "Player")
             {
-                transform.position = new Vector3(transform.position.x, 2.25f, transform.position.z);
-                frisbeeDirection = new Vector2(-1, 1);
+                state.frisbeePosition = new Vector3(transform.position.x, 2.25f, state.frisbeePosition.z);
+                state.frisbeeDirection = new Vector2(-1, 1);
             }
             else if (lastHolder == "Ennemy")
             {
-                transform.position = new Vector3(transform.position.x, 2.25f, transform.position.z);
-                frisbeeDirection = new Vector2(1, -1);
+                state.frisbeePosition = new Vector3(transform.position.x, 2.25f, state.frisbeePosition.z);
+                state.frisbeeDirection = new Vector2(1, -1);
             }
         }
     }
     void FixedUpdate()
     {
-        checkCollisions();
+        checkCollisions(state);
         
-        if (isMoving && !isHeld) // Move frisbee
+        if (isMoving && !state.isHeld) // Move frisbee
         {
-            this.transform.position = new Vector3(this.transform.position.x + frisbeeDirection.x/2, 2.25f, this.transform.position.z + frisbeeDirection.y/2);
+            state.frisbeePosition = new Vector3(state.frisbeePosition.x + state.frisbeeDirection.x / 2, 2.25f, state.frisbeePosition.z + state.frisbeeDirection.y / 2);
         }
-        else if(isHeld)// Stick
+        else if(state.isHeld)// Stick
         {
-            if(lastHolder == "Player")
-                transform.position = player.transform.position + new Vector3(-3.0f, 0f, 0f);
-            else if(lastHolder == "Ennemy")
-                transform.position = ennemy.transform.position + new Vector3(3.0f, 0f, 0f);
+            if(state.lastHolder == "Player")
+                state.frisbeePosition = state.playerPosition + new Vector3(-3.0f, 0f, 0f);
+            else if(state.lastHolder == "Ennemy")
+                state.frisbeePosition = state.ennemyPosition + new Vector3(3.0f, 0f, 0f);
         }
     }
 
-    public void checkCollisions()
+    public void checkCollisions(GameState state)
     {
-        if (this.transform.position.z + frisbeeRadius > borderTop.transform.position.z - borderRadius) // frisbee collide border top
+        if (state.frisbeePosition.z + frisbeeRadius > borderTop.transform.position.z - borderRadius) // frisbee collide border top
         {
-            frisbeeDirection = new Vector2(frisbeeDirection.x, -frisbeeDirection.y);
+            state.frisbeeDirection = new Vector2(state.frisbeeDirection.x, -state.frisbeeDirection.y);
         }
 
-        if (this.transform.position.z - frisbeeRadius < borderBottom.transform.position.z + borderRadius) // frisbee collide border bottom
+        if (state.frisbeePosition.z - frisbeeRadius < borderBottom.transform.position.z + borderRadius) // frisbee collide border bottom
         {
-            frisbeeDirection = new Vector2(frisbeeDirection.x, -frisbeeDirection.y);
+            state.frisbeeDirection = new Vector2(state.frisbeeDirection.x, -state.frisbeeDirection.y);
         }
     }
     
-    public void Shoot()
+    public void Shoot(GameState state)
     {
-       if(isHeld == true)
+       if(state.isHeld == true)
         {
-            isHeld = false;
-            if (lastHolder == "Player")
+            state.isHeld = false;
+            if (state.lastHolder == "Player")
             {
-                transform.position = new Vector3(transform.position.x, 2.25f, transform.position.z);
-                frisbeeDirection = new Vector2(-1, 1);
+                state.frisbeePosition = new Vector3(state.frisbeePosition.x, 2.25f, state.frisbeePosition.z);
+                state.frisbeeDirection = new Vector2(-1, 1);
             }
-            else if (lastHolder == "Ennemy")
+            else if (state.lastHolder == "Ennemy")
             {
-                transform.position = new Vector3(transform.position.x, 2.25f, transform.position.z);
-                frisbeeDirection = new Vector2(1, -1);
+                state.frisbeePosition = new Vector3(state.frisbeePosition.x, 2.25f, state.frisbeePosition.z);
+                state.frisbeeDirection = new Vector2(1, -1);
             }
         }
     }

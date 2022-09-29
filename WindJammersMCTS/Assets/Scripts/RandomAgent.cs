@@ -20,6 +20,8 @@ public class RandomAgent : MonoBehaviour
     
     public string operatingSide;
 
+    private GameState state;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +31,8 @@ public class RandomAgent : MonoBehaviour
         borderLeft = GameManager.instance.borderLeft;
         borderRight = GameManager.instance.borderRight;
         borderRadius = GameManager.instance.borderRadius;
+
+        state = GameManager.instance.State;
     }
 
     void Update()
@@ -36,14 +40,14 @@ public class RandomAgent : MonoBehaviour
         if (actionExecute)
         {
             StartCoroutine(randomizeInput());
-            tryToShoot();
+            tryToShoot(state);
         }
     }
     
     void FixedUpdate()
     {
-        checkCollisions();
-        Move();
+        checkCollisions(GameManager.instance.State);
+        Move(GameManager.instance.State);
     }
 
     private IEnumerator randomizeInput()
@@ -55,50 +59,50 @@ public class RandomAgent : MonoBehaviour
         actionExecute = true;
     }
 
-    private void Move()
+    private void Move(GameState state)
     {
-        this.transform.position = new Vector3(this.transform.position.x + horizontalInput/1.5f, 2.5f, this.transform.position.z + verticalInput/1.5f);
+        state.ennemyPosition = new Vector3(state.ennemyPosition.x + horizontalInput/1.5f, 2.5f, state.ennemyPosition.z + verticalInput/1.5f);
     }
 
-    private void tryToShoot()
+    private void tryToShoot(GameState state)
     {
         if (FrisbeeController.instance.isHeld && FrisbeeController.instance.lastHolder == "Ennemy")
         {
             if (Random.Range(1, 10) > 3) // 70% chance to shoot
             {
-                FrisbeeController.instance.Shoot();
+                FrisbeeController.instance.Shoot(state);
             }
         }
     }
     
-    private void checkCollisions()
+    private void checkCollisions(GameState state)
     {
-        if (operatingSide == "Left" && this.transform.position.x + entityRadius > 0) // Left side middle border
+        if (operatingSide == "Left" && state.ennemyPosition.x + entityRadius > 0) // Left side middle border
         {
             if (horizontalInput > 0)
                 horizontalInput = 0;
         }
-        if (operatingSide == "Right" && this.transform.position.x - entityRadius < 0) // Right side middle border
+        if (operatingSide == "Right" && state.ennemyPosition.x - entityRadius < 0) // Right side middle border
         {
             if (horizontalInput < 0)
                 horizontalInput = 0;
         }
-        if (this.transform.position.z + entityRadius > borderTop.transform.position.z - borderRadius) // Border top
+        if (state.ennemyPosition.z + entityRadius > borderTop.transform.position.z - borderRadius) // Border top
         {
             if (verticalInput > 0)
                 verticalInput = 0;
         }
-        if (this.transform.position.z - entityRadius < borderBottom.transform.position.z + borderRadius) // Border bottom
+        if (state.ennemyPosition.z - entityRadius < borderBottom.transform.position.z + borderRadius) // Border bottom
         {
             if (verticalInput < 0)
                 verticalInput = 0;
         }
-        if (this.transform.position.x - entityRadius < borderLeft.transform.position.x + borderRadius) // Border left
+        if (state.ennemyPosition.x - entityRadius < borderLeft.transform.position.x + borderRadius) // Border left
         {
             if (horizontalInput < 0)
                 horizontalInput = 0;
         }
-        if (this.transform.position.x + entityRadius > borderRight.transform.position.x - borderRadius) // Border right
+        if (state.ennemyPosition.x + entityRadius > borderRight.transform.position.x - borderRadius) // Border right
         {
             if (horizontalInput > 0)
                 horizontalInput = 0;

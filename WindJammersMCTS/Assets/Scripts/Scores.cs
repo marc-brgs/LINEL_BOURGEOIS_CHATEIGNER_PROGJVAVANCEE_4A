@@ -12,6 +12,7 @@ public class Scores : MonoBehaviour
     public GameObject score;
     public int PlayerScore = 0;
     public int EnnemyScore = 0;
+    private GameState state;
 
     void Awake()
     {
@@ -26,6 +27,7 @@ public class Scores : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        state = GameManager.instance.State;
         score.GetComponent<TMPro.TextMeshProUGUI>().text = EnnemyScore.ToString() + '-' + PlayerScore.ToString();
     }
 
