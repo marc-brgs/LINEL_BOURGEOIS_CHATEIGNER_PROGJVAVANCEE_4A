@@ -11,11 +11,16 @@ public class GameState : MonoBehaviour
     public int playerScore;
     public int ennemyScore;
     public bool isHeld;
-    public bool lastHolder;
+    public string lastHolder;
+    public bool isScored;
     
     // input bool
 
     public bool isFinished;
-    public int result;
-    
+    // public int result;
+
+    public bool getScored()
+    {
+        return isScored;
+    }
 }
