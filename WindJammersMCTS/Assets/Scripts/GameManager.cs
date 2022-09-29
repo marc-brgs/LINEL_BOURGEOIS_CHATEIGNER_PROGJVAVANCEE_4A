@@ -38,6 +38,8 @@ public class GameManager : MonoBehaviour
     private string gameMode = "MCTS"; // Default gameMode
     private bool gameEnded = false;
 
+    // string[] possibleActions = { "UP", "DOWN", "LEFT", "RIGHT", "SHOOT" };
+
     void Awake()
     {
         if (instance != null)

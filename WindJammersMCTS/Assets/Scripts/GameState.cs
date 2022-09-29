@@ -23,4 +23,29 @@ public class GameState : MonoBehaviour
     {
         return isScored;
     }
+
+
+
+    private string[] getPossibleAction()
+    {
+
+        string[] gStatePosAct;
+
+        if (isHeld)
+        {
+            gStatePosAct = new string[] { "UP", "DOWN", "LEFT", "RIGHT", "SHOOT" };
+        }
+        else
+        {
+            gStatePosAct = new string[] { "UP", "DOWN", "LEFT", "RIGHT" };
+        }
+
+        return gStatePosAct;
+    }
+
+    private string getRandomAction(string[] array)
+    {
+        int RdmNum = Random.Range(0, array.Length - 1);
+        return array[RdmNum];
+    }
 }

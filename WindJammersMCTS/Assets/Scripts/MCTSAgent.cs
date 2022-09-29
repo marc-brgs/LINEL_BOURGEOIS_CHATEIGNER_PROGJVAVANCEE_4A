@@ -21,14 +21,16 @@ public class MCTSAgent : MonoBehaviour
             this.State = state;
         }
     }
+
     
+
     private float max;
     private string bestAction;
     
-    private int numIteration = 100;
+    private int numIteration = 100; 
     private int numSim = 10;
     
-    // Start is called before the first frame update
+
     void Start()
     {
         /*MCTSNode startNode = new MCTSNode(GameManager.instance.GetCurrentGameState());
@@ -75,12 +77,6 @@ public class MCTSAgent : MonoBehaviour
         return true;
     }
     
-    private string[] GetPossibleAction()
-    {
-        string[] possibleActions = {"UP", "DOWN", "LEFT", "RIGHT", "SHOOT"};
-        return possibleActions;
-    }
-    
     //#1. Select a node if 1: we have more valid feasible moves or 2: it is terminal 
     private MCTSNode Selection(MCTSNode node)
     {
@@ -110,15 +106,28 @@ public class MCTSAgent : MonoBehaviour
     //#3. Roll-out. Simulate a game with a given policy and return the value
     private int Simulation(MCTSNode node, int numSim)
     {
-        int numWin = 0;
+       /* int numWin = 0;
         for (int i = 0; i < numSim; i++)
         {
             while (!node.State.getScored()) // but
             {
-            
+            }
+        }
+        return numWin;*/
+
+
+        int numWin = 0;
+        for (int i = 0; i < numSim; i++)
+        {
+            while (!node.State.isFinished) // but
+            {
+                // ExecuteAction(State.getRandomAction);
             }
         }
         return numWin;
+
+
+
     }
     
     private void BackPropogation(MCTSNode nodeToExplore, int numWin, int numSim)
