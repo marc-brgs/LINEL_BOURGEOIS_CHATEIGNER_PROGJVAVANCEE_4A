@@ -12,8 +12,8 @@ public class FrisbeeController : MonoBehaviour
     public string lastHolder = "Ennemy";
 
     private float frisbeeSpeed = 20f;
-    
-    private Vector2 frisbeeDirection = new Vector2(-1, 1);
+
+    public Vector2 frisbeeDirection = new Vector2(-1, 1);
 
     private Rigidbody rb;
 

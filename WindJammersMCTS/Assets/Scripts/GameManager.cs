@@ -29,12 +29,10 @@ public class GameManager : MonoBehaviour
     private float goalRadius;
 
     public GameState State;
-    public bool isScored = true;
+    public bool isScored = false;
 
     // GameState
-    public Vector3 playerPosition;
-    public Vector3 ennemyPosition;
-    
+
     private string gameMode = "MCTS"; // Default gameMode
     private bool gameEnded = false;
 
@@ -80,11 +78,29 @@ public class GameManager : MonoBehaviour
             ennemy.GetComponent<PlayerController>().enabled = false; // remove controls
             ennemy.GetComponent<RandomAgent>().enabled = false; // remove random agent
         }
+
+        State = new GameState(player.transform.position, ennemy.transform.position, frisbee.transform.position,
+            FrisbeeController.instance.frisbeeDirection, 0, 0, false, "Ennemy", false, false); 
+        // UpdateGameState();
+        // State = new GameState(player.transform.position);
+        Debug.Log(State.playerPosition.ToString());
+        /* if(State.playerPosition == null)
+            Debug.Log("NULL GameState");
+        else
+        {
+            Debug.Log("GameState not null");
+        }*/
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (gameMode == "MCTS")
+        {
+            State = ExecuteActionForEnnemy(this.State, "UP");
+            ApplyGameState(State);
+        }
+
         checkGoals();
         
         if(!gameEnded)
@@ -148,20 +164,27 @@ public class GameManager : MonoBehaviour
         State.lastHolder = FrisbeeController.instance.lastHolder;
         State.isScored = isScored;
         State.isFinished = gameEnded;
-        
+
     }
 
+    public void ApplyGameState(GameState State)
+    {
+        player.transform.position = State.playerPosition;
+        ennemy.transform.position = State.ennemyPosition;
+        frisbee.transform.position = State.frisbeePosition;
+        Scores.instance.PlayerScore = State.playerScore;
+        Scores.instance.EnnemyScore = State.ennemyScore;
+        FrisbeeController.instance.isHeld = State.isHeld;
+        FrisbeeController.instance.lastHolder = State.lastHolder;
+        isScored = State.isScored;
+        gameEnded = State.isFinished;
+    }
+    
     public GameState GetCurrentGameState()
     {
         return State;
     }
-    
-    public void ApplyGameState(GameState State)
-    {
-        player.transform.position = State.ennemyPosition;
-        ennemy.transform.position = State.ennemyPosition;
-        frisbee.transform.position = State.frisbeePosition;
-    }
+
 
     public void checkGoals()
     {
@@ -202,13 +225,76 @@ public class GameManager : MonoBehaviour
         FrisbeeController.instance.isHeld = false;
         isScored = false;
     }
-    
-    public void executeAction(string action)
+
+    public GameState ExecuteActionForEnnemy(GameState state, string action)
     {
+        Vector2 simulatedInput = new Vector2(0f, 0f);
+        
         switch (action)
         {
             case "UP":
+                simulatedInput = new Vector2(0f, 1f);
+                break;
+            case "DOWN":
+                simulatedInput = new Vector2(0f, -1f);
+                break;
+            case "LEFT":
+                simulatedInput = new Vector2(-1f, 0f);
+                break;
+            case "RIGHT":
+                simulatedInput = new Vector2(1f, 0f);
                 break;
         }
+
+        if (action == "UP" || action == "DOWN" || action == "LEFT" || action == "RIGHT")
+        {
+            Vector2 ennemyPosition2D = new Vector2(state.ennemyPosition.x, state.ennemyPosition.z);
+            //Debug.Log(ennemyPosition2D.ToString());
+            
+            simulatedInput = EntityCollisionHandler(ennemyPosition2D, simulatedInput, "LEFT");
+            Debug.Log(simulatedInput);
+            state.ennemyPosition = new Vector3(State.ennemyPosition.x + simulatedInput.x/1.5f, State.ennemyPosition.y, State.ennemyPosition.z + simulatedInput.y/1.5f);
+        }
+
+        return state;
+    }
+
+    // Return inputX and inputY handling border collision
+    public Vector2 EntityCollisionHandler(Vector2 entityPosition, Vector2 input, string side)
+    {
+        float entityRadius = player.transform.localScale.x / 1.2f; // approx
+        
+        if (side == "LEFT" && entityPosition.x + entityRadius > 0) // Left side middle border
+        {
+            if (input.x > 0)
+                input = new Vector2(0f, input.y);
+        }
+        if (side == "RIGHT" && entityPosition.x - entityRadius < 0) // Right side middle border
+        {
+            if (input.x < 0)
+                input = new Vector2(0f, input.y);
+        }
+        if (entityPosition.y + entityRadius > borderTop.transform.position.z - borderRadius) // Border top
+        {
+            if (input.y > 0)
+                input = new Vector2(input.x, 0f);
+        }
+        if (entityPosition.y - entityRadius < borderBottom.transform.position.z + borderRadius) // Border bottom
+        {
+            if (input.y < 0)
+                input = new Vector2(input.x, 0f);
+        }
+        if (entityPosition.x - entityRadius < borderLeft.transform.position.x + borderRadius) // Border left
+        {
+            if (input.x < 0)
+                input = new Vector2(0f, input.y);
+        }
+        if (entityPosition.x + entityRadius > borderRight.transform.position.x - borderRadius) // Border right
+        {
+            if (input.x > 0)
+                input = new Vector2(0f, input.y);
+        }
+
+        return input;
     }
 }
