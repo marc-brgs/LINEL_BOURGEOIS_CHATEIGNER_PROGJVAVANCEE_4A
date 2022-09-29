@@ -97,7 +97,7 @@ public class MCTSAgent : MonoBehaviour
         // copie du gamestate
         GameState simulateState = selectedNode.State;
         // playmove
-        GameManager.instance.executeAction(selectedNode.action);
+        GameManager.instance.ExecuteActionForEnnemy(selectedNode.State, selectedNode.action);
         
         // créer nouveau node enfant (définir son parent au selected)
         return selectedNode; // tmp
