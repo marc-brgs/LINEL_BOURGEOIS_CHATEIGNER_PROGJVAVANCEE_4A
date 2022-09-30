@@ -13,7 +13,9 @@ public class PlayerController : MonoBehaviour
     private Vector2 playerSpeed = new Vector2(0f, 0f);
 
     private PlayerInput playerInput;
-    private InputAction Shoot;
+    private InputAction ShootTop;
+    private InputAction ShootBottom;
+
 
     private float entityRadius;
     private GameObject borderTop;
@@ -46,15 +48,25 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable()
     {
-        playerInput.Player.Shoot.performed += DoShoot;
-        playerInput.Player.Shoot.Enable();
+        playerInput.Player.ShootTop.performed += DoShootTop;
+        playerInput.Player.ShootTop.Enable();
+
+        playerInput.Player.ShootBottom.performed += DoShootBottom;
+        playerInput.Player.ShootBottom.Enable();
     }
     
-    private void DoShoot(InputAction.CallbackContext obj)
+    private void DoShootTop(InputAction.CallbackContext obj)
     {
-        FrisbeeController.instance.Shoot(state, "TOP");
+        FrisbeeController.instance.Shoot(GameManager.instance.State, "TOP");
     }
-    
+
+    private void DoShootBottom(InputAction.CallbackContext obj)
+    {
+        FrisbeeController.instance.Shoot(GameManager.instance.State, "BOTTOM");
+    }
+
+
+
     void Update()
     {
         GetInputs();
