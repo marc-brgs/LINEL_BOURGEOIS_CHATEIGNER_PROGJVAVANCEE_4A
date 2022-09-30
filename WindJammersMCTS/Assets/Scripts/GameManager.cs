@@ -96,7 +96,11 @@ public class GameManager : MonoBehaviour
             State = ExecuteActionForEnnemy(this.State, "LEFT");
         }
 
-        checkGoals(State);
+        bool endRound = checkGoals(State);
+        
+        if(endRound)
+            setupNextRound(State);
+        
         RenderGameState(State);
         
         if(!isFinished)
@@ -128,14 +132,15 @@ public class GameManager : MonoBehaviour
     public void ReplayGame()
     {
         menuFin.SetActive(false);
-        Scores.instance.PlayerScore = 0;
-        Scores.instance.EnnemyScore = 0;
+        State.playerScore = 0;
+        State.ennemyScore = 0;
         Time.timeScale = 1f;
-        isFinished = false;
+        State.isFinished = false;
     }
     
     public void EndGame()
     {
+        RenderGameState(State);
         menuFin.SetActive(true);
         Time.timeScale = 0f;
         GameObject.Find("UI/Menu Fin/Texte").GetComponent<TMPro.TextMeshProUGUI>().text = Scores.instance.EnnemyScore.ToString() + '-' + Scores.instance.PlayerScore.ToString();
@@ -164,45 +169,51 @@ public class GameManager : MonoBehaviour
 
     
     /*
-     *  Check frisbee position 
+     *  Check if scored with frisbee position 
      */
-    public void checkGoals(GameState state)
+    public bool checkGoals(GameState state)
     {
+        bool scored = false;
+        
         if (state.frisbeePosition.x < goalE.transform.position.x + goalRadius) // Frisbee half enter ennemy goal - Player scored
         {
             state.isScored = true;
             state.playerScore += 1;
-            nextRound(state,"ENNEMY");
+            setupNextRound(state);
 
             if (state.playerScore == 10)
             {
                 state.isFinished = true;
                 EndGame();
             }
-        }
 
-        if (state.frisbeePosition.x > goalP.transform.position.x - goalRadius) // Frisbee half enter player goal - Ennemy scored
+            scored = true;
+        }
+        else if (state.frisbeePosition.x > goalP.transform.position.x - goalRadius) // Frisbee half enter player goal - Ennemy scored
         {
             isScored = true;
             state.ennemyScore += 1;
-            nextRound(state, "PLAYER");
+            setupNextRound(state);
 
             if (Scores.instance.EnnemyScore == 10)
             {
                 state.isFinished = true;
                 EndGame();
             }
+            scored = true;
         }
+
+        return scored;
     }
     
-    public void nextRound(GameState state, string entity)
+    public void setupNextRound(GameState state)
     {
-        if (entity == "ENNEMY") // Set frisbee in ennemy zone
+        if (state.lastHolder == "Ennemy") // Set frisbee in ennemy zone
         {
             state.lastHolder = "Player";
             state.frisbeePosition = new Vector3(-6f, 2.25f, 0f);
         }
-        else // Set frisbee in player zone
+        else if(state.lastHolder == "Player") // Set frisbee in player zone
         {
             state.lastHolder = "Ennemy";
             state.frisbeePosition = new Vector3(6f, 2.25f, 0f);
@@ -230,8 +241,14 @@ public class GameManager : MonoBehaviour
             case "RIGHT":
                 simulatedInput = new Vector2(1f, 0f);
                 break;
+            case "SHOOT_TOP":
+                FrisbeeController.instance.Shoot(state, "TOP");
+                break;
+            case "SHOOT_BOTTOM":
+                FrisbeeController.instance.Shoot(state, "BOTTOM");
+                break;
         }
-
+        
         if (action == "UP" || action == "DOWN" || action == "LEFT" || action == "RIGHT")
         {
             Vector2 playerPosition2D = new Vector2(state.playerPosition.x, state.playerPosition.z);
@@ -259,6 +276,12 @@ public class GameManager : MonoBehaviour
                 break;
             case "RIGHT":
                 simulatedInput = new Vector2(1f, 0f);
+                break;
+            case "SHOOT_TOP":
+                FrisbeeController.instance.Shoot(state, "TOP");
+                break;
+            case "SHOOT_BOTTOM":
+                FrisbeeController.instance.Shoot(state, "BOTTOM");
                 break;
         }
 

@@ -451,7 +451,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb7e0c962d952e749adf8ea88b435a00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  operatingSide: Right
+  side: RIGHT
 --- !u!114 &172957057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1266,6 +1266,7 @@ MonoBehaviour:
   borderRight: {fileID: 1379179113}
   borderRadius: 0
   filet: {fileID: 1430036382}
+  filetRadius: 0
   goalP: {fileID: 1115279038}
   goalE: {fileID: 1946216812}
   State: {fileID: 0}
@@ -1548,7 +1549,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb7e0c962d952e749adf8ea88b435a00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  operatingSide: Left
+  side: LEFT
 --- !u!23 &813707093
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1626,7 +1627,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97b03acb0dc2357409fb5217808383a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  operatingSide: Left
+  side: LEFT
 --- !u!114 &813707097
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -8,8 +8,8 @@ public class MCTSAgent : MonoBehaviour
     
     class MCTSNode
     {
-        public MCTSNode parentNode;
-        public List<MCTSNode> childrenNodes;
+        public MCTSNode parent;
+        public List<MCTSNode> children;
         public string action;
         public GameState State;
         public int nbWin;
@@ -81,14 +81,24 @@ public class MCTSAgent : MonoBehaviour
     //#1. Select a node if 1: we have more valid feasible moves or 2: it is terminal 
     private MCTSNode Selection(MCTSNode node)
     {
-        // random exploit explo
-       /* while (node.Children.Count > 0)
-        {
-            exploitation - on descent au plus bas possible en fonction du plus gros score
-            exploration - choix random
-        }*/
+        string mode = "EXPLOITATION";
+        // 70% de chance d'exploration et 30 de chance d'exploitation
+        if(Random.Range(1, 10) > 3)
+            mode = "EXPLORATION";
 
-       return node; // tmp
+        while (node.children.Count > 0)
+        {
+            if (mode == "EXPLORATION")
+            {
+                // exploration - choix random
+            }
+            else if (mode == "EXPLOITATION")
+            {
+                // exploitation - on descent au plus bas possible en fonction du plus gros score
+            }
+        }
+        
+        return node; // tmp
     }
 
     //#2. Expand a node by creating a new move and returning the node
@@ -104,26 +114,31 @@ public class MCTSAgent : MonoBehaviour
         return selectedNode; // tmp
     }
     
-    //#3. Roll-out. Simulate a game with a given policy and return the value
+    // Simulate a game with a given policy and return the number of win
     private int Simulation(MCTSNode node, int numSim)
     {
-       /* int numWin = 0;
-        for (int i = 0; i < numSim; i++)
-        {
-            while (!node.State.getScored()) // but
-            {
-            }
-        }
-        return numWin;*/
-
-
         int numWin = 0;
         for (int i = 0; i < numSim; i++)
         {
-            while (!node.State.isFinished) // but
+            int ennemyScore = node.State.ennemyScore;
+            while (!node.State.isScored) // Until goal scored
             {
-                // ExecuteAction(State.getRandomAction);
+                string[] actions = node.State.getPossibleAction("ENNEMY");
+                string selectedAction = node.State.getRandomAction(actions);
+                GMInstance.ExecuteActionForEnnemy(node.State, selectedAction); // Move ennemy (handle border collisions)
+                
+                actions = node.State.getPossibleAction("PLAYER");
+                selectedAction = node.State.getRandomAction(actions);
+                GMInstance.ExecuteActionForPlayer(node.State, selectedAction); // Move player (handle border collisions)
+                
+                FrisbeeController.instance.checkBorderCollisions(node.State);
+                FrisbeeController.instance.checkCatch(node.State);
+                FrisbeeController.instance.moveOrStick(node.State);
+                GMInstance.checkGoals(node.State);
             }
+            
+            if (node.State.ennemyScore > ennemyScore) numWin++;
+
         }
         return numWin;
 

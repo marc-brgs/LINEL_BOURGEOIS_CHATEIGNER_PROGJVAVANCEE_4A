@@ -53,7 +53,11 @@ public class FrisbeeController : MonoBehaviour
     void FixedUpdate()
     {
         checkBorderCollisions(state);
-        
+        moveOrStick(state);
+    }
+
+    public void moveOrStick(GameState state)
+    {
         if (isMoving && !state.isHeld) // Move frisbee
         {
             state.frisbeePosition = new Vector3(state.frisbeePosition.x + state.frisbeeDirection.x / 2, 2.25f, state.frisbeePosition.z + state.frisbeeDirection.y / 2);

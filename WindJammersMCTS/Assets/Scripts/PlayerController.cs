@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    public string operatingSide;
+    public string side;
 
     private float horizontalInput = 0f;
     private float verticalInput = 0f;
@@ -86,12 +86,12 @@ public class PlayerController : MonoBehaviour
     
     private void checkCollisions(GameState state)
     {
-        if (operatingSide == "LEFT" && state.playerPosition.x + entityRadius > 0 + filetRadius) // Left side middle border
+        if (side == "LEFT" && state.playerPosition.x + entityRadius > 0 + filetRadius) // Left side middle border
         {
             if (horizontalInput > 0)
                 horizontalInput = 0;
         }
-        if (operatingSide == "RIGHT" && state.playerPosition.x - entityRadius < 0 - filetRadius) // Right side middle border
+        if (side == "RIGHT" && state.playerPosition.x - entityRadius < 0 - filetRadius) // Right side middle border
         {
             if (horizontalInput < 0)
                 horizontalInput = 0;

@@ -18,7 +18,7 @@ public class RandomAgent : MonoBehaviour
     private GameObject borderRight;
     private float borderRadius;
     
-    public string operatingSide;
+    public string side;
 
     private GameState state;
 
@@ -77,12 +77,12 @@ public class RandomAgent : MonoBehaviour
     
     private void checkCollisions(GameState state)
     {
-        if (operatingSide == "Left" && state.ennemyPosition.x + entityRadius > 0) // Left side middle border
+        if (side == "LEFT" && state.ennemyPosition.x + entityRadius > 0) // Left side middle border
         {
             if (horizontalInput > 0)
                 horizontalInput = 0;
         }
-        if (operatingSide == "Right" && state.ennemyPosition.x - entityRadius < 0) // Right side middle border
+        if (side == "RIGHT" && state.ennemyPosition.x - entityRadius < 0) // Right side middle border
         {
             if (horizontalInput < 0)
                 horizontalInput = 0;

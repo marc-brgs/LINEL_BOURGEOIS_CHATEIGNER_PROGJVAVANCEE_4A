@@ -22,28 +22,31 @@ public class GameState : MonoBehaviour
     // public int result;
 
 
-    private string[] getPossibleAction()
+    public string[] getPossibleAction(string entity)
     {
-
-        string[] gStatePosAct;
-
+        string[] gStatePosAct = new string[] { };
+        
         if (isHeld)
         {
-            gStatePosAct = new string[] { "UP", "DOWN", "LEFT", "RIGHT", "SHOOT" };
+            if (entity == "ENNEMY" && lastHolder == "Ennemy")
+                gStatePosAct = new string[] { "UP", "DOWN", "LEFT", "RIGHT", "SHOOT_TOP", "SHOOT_BOTTOM" };
+            else if (entity == "PLAYER" && lastHolder == "Player")
+                gStatePosAct = new string[] { "UP", "DOWN", "LEFT", "RIGHT", "SHOOT_TOP", "SHOOT_BOTTOM" };
         }
         else
         {
             gStatePosAct = new string[] { "UP", "DOWN", "LEFT", "RIGHT" };
         }
-
+        
         return gStatePosAct;
     }
 
-    private string getRandomAction(string[] array)
+    public string getRandomAction(string[] array)
     {
         int RdmNum = Random.Range(0, array.Length - 1);
         return array[RdmNum];
     }
+    
     public GameState(Vector3 playerPosition, Vector2 playerSpeed, Vector3 ennemyPosition, Vector2 ennemySpeed, Vector3 frisbeePosition, Vector2 frisbeeDirection,
         int playerScore, int ennemyScore, bool isHeld, string lastHolder, bool isScored, bool isFinished)
     {
