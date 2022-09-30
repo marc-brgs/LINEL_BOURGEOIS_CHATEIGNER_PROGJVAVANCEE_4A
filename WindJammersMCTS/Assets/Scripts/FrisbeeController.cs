@@ -15,8 +15,6 @@ public class FrisbeeController : MonoBehaviour
 
     public Vector2 frisbeeDirection = new Vector2(-1, 1);
 
-    private Rigidbody rb;
-
     public GameObject player;
     public GameObject ennemy;
     public GameObject borderTop;
@@ -26,7 +24,7 @@ public class FrisbeeController : MonoBehaviour
     private float entityRadius;
     private float borderRadius;
     
-    GameState state;
+    private GameState state;
 
     void Awake()
     {
@@ -50,46 +48,17 @@ public class FrisbeeController : MonoBehaviour
 
     void Update()
     {
-        float distPlayer = Vector3.Distance(state.playerPosition, state.frisbeePosition);
-        if (!state.isHeld && distPlayer < 2.5f && state.lastHolder != "Player") // Catch
-        {
-            state.isHeld = true;
-            isMoving = true; // first catch
-            state.lastHolder = "Player";
-        }
-        
-        float distEnnemy = Vector3.Distance(state.ennemyPosition, state.frisbeePosition);
-        if (!state.isHeld && distEnnemy < 2.5f && state.lastHolder != "Ennemy") // Catch
-        {
-            state.isHeld = true;
-            isMoving = true; // first catch
-            state.lastHolder = "Ennemy";
-        }
-
-        if(isHeld && Input.GetMouseButtonDown(0)) // Release frisbee
-        {
-            state.isHeld = false;
-            if (state.lastHolder == "Player")
-            {
-                state.frisbeePosition = new Vector3(transform.position.x, 2.25f, state.frisbeePosition.z);
-                state.frisbeeDirection = new Vector2(-1, 1);
-            }
-            else if (lastHolder == "Ennemy")
-            {
-                state.frisbeePosition = new Vector3(transform.position.x, 2.25f, state.frisbeePosition.z);
-                state.frisbeeDirection = new Vector2(1, -1);
-            }
-        }
+        checkCatch(state);
     }
     void FixedUpdate()
     {
-        checkCollisions(state);
+        checkBorderCollisions(state);
         
         if (isMoving && !state.isHeld) // Move frisbee
         {
             state.frisbeePosition = new Vector3(state.frisbeePosition.x + state.frisbeeDirection.x / 2, 2.25f, state.frisbeePosition.z + state.frisbeeDirection.y / 2);
         }
-        else if(state.isHeld)// Stick
+        else if(state.isHeld) // Stick
         {
             if(state.lastHolder == "Player")
                 state.frisbeePosition = state.playerPosition + new Vector3(-3.0f, 0f, 0f);
@@ -98,35 +67,63 @@ public class FrisbeeController : MonoBehaviour
         }
     }
 
-    public void checkCollisions(GameState state)
+    public void checkCatch(GameState state)
     {
-        if (state.frisbeePosition.z + frisbeeRadius > borderTop.transform.position.z - borderRadius) // frisbee collide border top
+        float distPlayer = Vector3.Distance(state.playerPosition, state.frisbeePosition);
+        if (!state.isHeld && distPlayer < 2.5f && state.lastHolder != "Player") // Player frisbee catch
+        {
+            state.isHeld = true;
+            isMoving = true; // first catch
+            state.lastHolder = "Player";
+        }
+        
+        float distEnnemy = Vector3.Distance(state.ennemyPosition, state.frisbeePosition);
+        if (!state.isHeld && distEnnemy < 2.5f && state.lastHolder != "Ennemy") // Ennemy frisbee catch
+        {
+            state.isHeld = true;
+            isMoving = true; // first catch
+            state.lastHolder = "Ennemy";
+        }
+    }
+    
+    public void checkBorderCollisions(GameState state)
+    {
+        if (state.frisbeePosition.z + frisbeeRadius > borderTop.transform.position.z - borderRadius) // Frisbee collide border top
         {
             state.frisbeeDirection = new Vector2(state.frisbeeDirection.x, -state.frisbeeDirection.y);
         }
 
-        if (state.frisbeePosition.z - frisbeeRadius < borderBottom.transform.position.z + borderRadius) // frisbee collide border bottom
+        if (state.frisbeePosition.z - frisbeeRadius < borderBottom.transform.position.z + borderRadius) // Frisbee collide border bottom
         {
             state.frisbeeDirection = new Vector2(state.frisbeeDirection.x, -state.frisbeeDirection.y);
         }
     }
     
-    public void Shoot(GameState state)
+    /*
+     *  Thow frisbee in given GameState depending of the thrower and aim
+     */
+    public void Shoot(GameState state, string aim="BOTTOM")
     {
        if(state.isHeld == true)
-        {
-            state.isHeld = false;
-            if (state.lastHolder == "Player")
-            {
-                state.frisbeePosition = new Vector3(state.frisbeePosition.x, 2.25f, state.frisbeePosition.z);
-                state.frisbeeDirection = new Vector2(-1, 1);
-            }
-            else if (state.lastHolder == "Ennemy")
-            {
-                state.frisbeePosition = new Vector3(state.frisbeePosition.x, 2.25f, state.frisbeePosition.z);
-                state.frisbeeDirection = new Vector2(1, -1);
-            }
-        }
+       {
+           state.isHeld = false;
+           if (state.lastHolder == "Player")
+           { 
+               state.frisbeePosition = new Vector3(state.frisbeePosition.x, 2.25f, state.frisbeePosition.z);
+               if(aim == "TOP") 
+                   state.frisbeeDirection = new Vector2(-1, 1);
+               else if(aim == "BOTTOM")
+                   state.frisbeeDirection = new Vector2(-1, -1);
+           }
+           else if (state.lastHolder == "Ennemy")
+           { 
+               state.frisbeePosition = new Vector3(state.frisbeePosition.x, 2.25f, state.frisbeePosition.z);
+               if(aim == "TOP") 
+                   state.frisbeeDirection = new Vector2(1, 1);
+               else if(aim == "BOTTOM")
+                   state.frisbeeDirection = new Vector2(1, -1);
+           }
+       }
     }
 
 }

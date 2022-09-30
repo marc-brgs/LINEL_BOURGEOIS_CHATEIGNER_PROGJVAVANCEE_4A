@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class MCTSAgent : MonoBehaviour
 {
+    
     class MCTSNode
     {
         public MCTSNode parentNode;
@@ -14,7 +15,7 @@ public class MCTSAgent : MonoBehaviour
         public int nbWin;
         public int nbPlayed;
         public bool isLeaf;
-        // private float value = nbWin / nbPlayed;
+        private float value; // nbWin/nbPlayed
 
         public MCTSNode(GameState state)
         {
@@ -22,28 +23,14 @@ public class MCTSAgent : MonoBehaviour
         }
     }
 
-    
-
+    private GameManager GMInstance = GameManager.instance; 
     private float max;
     private string bestAction;
     
     private int numIteration = 100; 
     private int numSim = 10;
     
-
-    void Start()
-    {
-        /*MCTSNode startNode = new MCTSNode(GameManager.instance.GetCurrentGameState());
-        for (int i = 0; i < numIteration; i++)
-        {
-            MCTSNode selectedNode = Selection(startNode);
-            MCTSNode newNode = Expansion(selectedNode);
-            int numWin = Simulation(newNode, numSim);
-            BackPropogation(newNode, numWin, numSim);
-        }*/
-        
-        // GameManagerInstance.PlayMove(simulationGameState, player, selectedMove)
-    }
+    
 
     // Update is called once per frame
     void Update()
@@ -72,6 +59,20 @@ public class MCTSAgent : MonoBehaviour
         
     }
 
+    private void ComputeMCTS()
+    {
+        /*MCTSNode startNode = new MCTSNode(GMInstance.GetCurrentGameState());
+        for (int i = 0; i < numIteration; i++)
+        {
+            MCTSNode selectedNode = Selection(startNode);
+            MCTSNode newNode = Expansion(selectedNode);
+            int numWin = Simulation(newNode, numSim);
+            BackPropogation(newNode, numWin, numSim);
+        }*/
+        
+        // GameManagerInstance.PlayMove(simulationGameState, player, selectedMove)
+    }
+    
     private bool checkIsLeaf(MCTSNode node)
     {
         return true;

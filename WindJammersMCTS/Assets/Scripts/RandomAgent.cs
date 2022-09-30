@@ -70,7 +70,7 @@ public class RandomAgent : MonoBehaviour
         {
             if (Random.Range(1, 10) > 3) // 70% chance to shoot
             {
-                FrisbeeController.instance.Shoot(state);
+                FrisbeeController.instance.Shoot(state, Random.Range(1, 10) > 5 ? "TOP" : "BOTTOM"); // 50 % chance to aim TOP or BOTTOM
             }
         }
     }

@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour
     public GameObject borderLeft;
     public GameObject borderRight;
     public float borderRadius;
+    public GameObject filet;
+    public float filetRadius;
     
     [SerializeField] private  GameObject goalP;
     [SerializeField] private GameObject goalE;
@@ -51,35 +53,37 @@ public class GameManager : MonoBehaviour
     {
         borderRadius = borderTop.transform.localScale.z / 2;
         goalRadius = goalP.transform.localScale.x / 2;
+        filetRadius = filet.transform.localScale.x / 2;
 
         if(GameConfig.instance != null) // Recover gameMode selected from menu
             gameMode = GameConfig.instance.gameMode;
         
         if (gameMode == "Solo")
         {
-            ennemy.GetComponent<RandomAgent>().enabled = false; // remove random agent
-            ennemy.GetComponent<MCTSAgent>().enabled = false; // remove MCTS agent
+            ennemy.GetComponent<RandomAgent>().enabled = false; // Remove random agent
+            ennemy.GetComponent<MCTSAgent>().enabled = false; // Remove MCTS agent
         }
         if (gameMode == "Duo")
         {
-            ennemy.GetComponent<PlayerController>().enabled = false; // remove controls
-            ennemy.GetComponent<RandomAgent>().enabled = false; // remove random agent
-            ennemy.GetComponent<MCTSAgent>().enabled = false; // remove MCTS agent
+            ennemy.GetComponent<PlayerController>().enabled = false; // Remove controls
+            ennemy.GetComponent<RandomAgent>().enabled = false; // Remove random agent
+            ennemy.GetComponent<MCTSAgent>().enabled = false; // Remove MCTS agent
         }
 
         if (gameMode == "Random")
         {
-            ennemy.GetComponent<PlayerController>().enabled = false; // remove controls
-            ennemy.GetComponent<MCTSAgent>().enabled = false; // remove MCTS agent
+            ennemy.GetComponent<PlayerController>().enabled = false; // Remove controls
+            ennemy.GetComponent<MCTSAgent>().enabled = false; // Remove MCTS agent
         }
         if (gameMode == "MCTS")
         {
-            ennemy.GetComponent<PlayerController>().enabled = false; // remove controls
-            ennemy.GetComponent<RandomAgent>().enabled = false; // remove random agent
+            ennemy.GetComponent<PlayerController>().enabled = false; // Remove controls
+            ennemy.GetComponent<RandomAgent>().enabled = false; // Remove random agent
         }
 
-        // Instanciate GameState
-        State = new GameState(player.transform.position, ennemy.transform.position, frisbee.transform.position,
+        // Instantiate GameState
+        State = new GameState(player.transform.position, new Vector2(0f, 0f), ennemy.transform.position,
+            new Vector2(0f, 0f), frisbee.transform.position,
             FrisbeeController.instance.frisbeeDirection, 0, 0, false, "Ennemy", false, false);
     }
 
@@ -91,9 +95,9 @@ public class GameManager : MonoBehaviour
             State = ExecuteActionForEnnemy(this.State, "UP");
             State = ExecuteActionForEnnemy(this.State, "LEFT");
         }
-        
+
         checkGoals(State);
-        ApplyGameState(State);
+        RenderGameState(State);
         
         if(!isFinished)
             CheckForPause();
@@ -101,17 +105,10 @@ public class GameManager : MonoBehaviour
 
     public void CheckForPause()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (GameIsPaused)
-            {
-                ResumeGame();
-            }
-            else
-            {
-                PauseGame();
-            }
-        }
+        if (!Input.GetKeyDown(KeyCode.Escape)) return;
+       
+        if (GameIsPaused) ResumeGame();
+        else PauseGame();
     }
     
     public void ResumeGame()
@@ -137,15 +134,17 @@ public class GameManager : MonoBehaviour
         isFinished = false;
     }
     
-    public void EndGame(GameState state)
+    public void EndGame()
     {
-        state.isFinished = true;
         menuFin.SetActive(true);
         Time.timeScale = 0f;
         GameObject.Find("UI/Menu Fin/Texte").GetComponent<TMPro.TextMeshProUGUI>().text = Scores.instance.EnnemyScore.ToString() + '-' + Scores.instance.PlayerScore.ToString();
     }
 
-    public void ApplyGameState(GameState State)
+    /*
+     *  Render game with given GameState
+     */
+    public void RenderGameState(GameState State)
     {
         player.transform.position = State.playerPosition;
         ennemy.transform.position = State.ennemyPosition;
@@ -163,27 +162,36 @@ public class GameManager : MonoBehaviour
         return State;
     }
 
-
+    
+    /*
+     *  Check frisbee position 
+     */
     public void checkGoals(GameState state)
     {
-        if (state.frisbeePosition.x < goalE.transform.position.x + goalRadius) // frisbee half enter ennemy goal - Player scored
+        if (state.frisbeePosition.x < goalE.transform.position.x + goalRadius) // Frisbee half enter ennemy goal - Player scored
         {
             state.isScored = true;
             state.playerScore += 1;
             nextRound(state,"ENNEMY");
-            
+
             if (state.playerScore == 10)
-                EndGame(state);
+            {
+                state.isFinished = true;
+                EndGame();
+            }
         }
 
-        if (state.frisbeePosition.x > goalP.transform.position.x - goalRadius) // frisbee half enter player goal - Ennemy scored
+        if (state.frisbeePosition.x > goalP.transform.position.x - goalRadius) // Frisbee half enter player goal - Ennemy scored
         {
             isScored = true;
             state.ennemyScore += 1;
             nextRound(state, "PLAYER");
 
             if (Scores.instance.EnnemyScore == 10)
-                EndGame(state);
+            {
+                state.isFinished = true;
+                EndGame();
+            }
         }
     }
     
@@ -203,7 +211,7 @@ public class GameManager : MonoBehaviour
         state.isHeld = false;
         state.isScored = false;
     }
-
+    
     public GameState ExecuteActionForPlayer(GameState state, string action)
     {
         Vector2 simulatedInput = new Vector2(0f, 0f);
@@ -264,17 +272,19 @@ public class GameManager : MonoBehaviour
         return state;
     }
 
-    // Return inputX and inputY handling border collision
+    /*
+     *  Return inputX and inputY handling border collision (set 0 on axis if border)
+     */
     public Vector2 EntityCollisionHandler(Vector2 entityPosition, Vector2 input, string side)
     {
         float entityRadius = player.transform.localScale.x / 1.2f; // approx
         
-        if (side == "LEFT" && entityPosition.x + entityRadius > 0) // Left side middle border
+        if (side == "LEFT" && entityPosition.x + entityRadius > 0 + filetRadius) // Left side middle border
         {
             if (input.x > 0)
                 input = new Vector2(0f, input.y);
         }
-        if (side == "RIGHT" && entityPosition.x - entityRadius < 0) // Right side middle border
+        if (side == "RIGHT" && entityPosition.x - entityRadius < 0 - filetRadius) // Right side middle border
         {
             if (input.x < 0)
                 input = new Vector2(0f, input.y);

@@ -3,21 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-
 public class PlayerController : MonoBehaviour
 {
-    private float moveSpeed = 26f;
     public string operatingSide;
 
     private float horizontalInput = 0f;
     private float verticalInput = 0f;
 
-    private float dashingTime = 0.2f;
-    private bool isDashing = false;
-    private bool canDash = true;
-    private float dashingPower = 30f;
-    private float dashX = 0f;
-    private float dashY = 0f;
+    private Vector2 playerSpeed = new Vector2(0f, 0f);
 
     private PlayerInput playerInput;
     private InputAction Shoot;
@@ -28,8 +21,9 @@ public class PlayerController : MonoBehaviour
     private GameObject borderLeft;
     private GameObject borderRight;
     private float borderRadius;
-    
-    GameState state;
+    private float filetRadius;
+
+    private GameState state;
     
     private void Awake()
     { 
@@ -45,6 +39,7 @@ public class PlayerController : MonoBehaviour
         borderLeft = GameManager.instance.borderLeft;
         borderRight = GameManager.instance.borderRight;
         borderRadius = GameManager.instance.borderRadius;
+        filetRadius = GameManager.instance.filetRadius;
         
         state = GameManager.instance.State;
     }
@@ -57,19 +52,25 @@ public class PlayerController : MonoBehaviour
     
     private void DoShoot(InputAction.CallbackContext obj)
     {
-        FrisbeeController.instance.Shoot(state);
+        FrisbeeController.instance.Shoot(state, "TOP");
     }
     
     void Update()
     {
         GetInputs();
+        
+        if(Input.GetMouseButtonDown(0) && GameManager.instance.State.lastHolder == "Player") // Release frisbee BOTTOM
+            FrisbeeController.instance.Shoot(GameManager.instance.State, "BOTTOM");
+        else if(Input.GetMouseButtonDown(1) && GameManager.instance.State.lastHolder == "Player") // Release TOP
+            FrisbeeController.instance.Shoot(GameManager.instance.State, "TOP");
     }
     
     void FixedUpdate()
     {
         checkCollisions(GameManager.instance.State);
 
-        Move();
+        if (horizontalInput == 0f && verticalInput == 0f) return; // Don't update GameState
+        Move(GameManager.instance.State);
     }
     
     private void GetInputs()
@@ -78,20 +79,19 @@ public class PlayerController : MonoBehaviour
         verticalInput = Input.GetAxis("Vertical");
     }
     
-    private void Move()
+    private void Move(GameState state)
     {
-        GameManager.instance.State.playerPosition = new Vector3(GameManager.instance.State.playerPosition.x + horizontalInput/1.5f, 2.5f, GameManager.instance.State.playerPosition.z + verticalInput/1.5f);
-        //this.transform.position = new Vector3(this.transform.position.x + horizontalInput/1.5f, 2.5f, this.transform.position.z + verticalInput/1.5f);
+        state.playerPosition = new Vector3(state.playerPosition.x + horizontalInput/1.5f, 2.5f, state.playerPosition.z + verticalInput/1.5f);
     }
-
+    
     private void checkCollisions(GameState state)
     {
-        if (operatingSide == "Left" && state.playerPosition.x + entityRadius > 0) // Left side middle border
+        if (operatingSide == "LEFT" && state.playerPosition.x + entityRadius > 0 + filetRadius) // Left side middle border
         {
             if (horizontalInput > 0)
                 horizontalInput = 0;
         }
-        if (operatingSide == "Right" && state.playerPosition.x - entityRadius < 0) // Right side middle border
+        if (operatingSide == "RIGHT" && state.playerPosition.x - entityRadius < 0 - filetRadius) // Right side middle border
         {
             if (horizontalInput < 0)
                 horizontalInput = 0;

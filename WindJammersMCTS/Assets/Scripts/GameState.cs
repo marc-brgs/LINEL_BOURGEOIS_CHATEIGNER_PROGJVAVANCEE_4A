@@ -5,7 +5,9 @@ using UnityEngine;
 public class GameState : MonoBehaviour
 {
     public Vector3 playerPosition;
+    public Vector2 playerSpeed;
     public Vector3 ennemyPosition;
+    public Vector2 ennemySpeed;
     public Vector3 frisbeePosition;
     public Vector2 frisbeeDirection;
     public int playerScore;
@@ -18,11 +20,6 @@ public class GameState : MonoBehaviour
 
     public bool isFinished;
     // public int result;
-
-    public bool getScored()
-    {
-        return isScored;
-    }
 
 
     private string[] getPossibleAction()
@@ -47,10 +44,13 @@ public class GameState : MonoBehaviour
         int RdmNum = Random.Range(0, array.Length - 1);
         return array[RdmNum];
     }
-    public GameState(Vector3 playerPosition, Vector3 ennemyPosition, Vector3 frisbeePosition, Vector2 frisbeeDirection, int playerScore, int ennemyScore, bool isHeld, string lastHolder, bool isScored, bool isFinished)
+    public GameState(Vector3 playerPosition, Vector2 playerSpeed, Vector3 ennemyPosition, Vector2 ennemySpeed, Vector3 frisbeePosition, Vector2 frisbeeDirection,
+        int playerScore, int ennemyScore, bool isHeld, string lastHolder, bool isScored, bool isFinished)
     {
         this.playerPosition = playerPosition;
+        this.playerSpeed = playerSpeed;
         this.ennemyPosition = ennemyPosition;
+        this.ennemySpeed = ennemySpeed;
         this.frisbeePosition = frisbeePosition;
         this.frisbeeDirection = frisbeeDirection;
         this.playerScore = playerScore;
