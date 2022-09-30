@@ -14,8 +14,7 @@ public class MCTSAgent : MonoBehaviour
         public GameState State;
         public int nbWin;
         public int nbPlayed;
-        public bool isLeaf;
-        private float value; // nbWin/nbPlayed
+        public float value; // nbWin/nbPlayed
 
         public MCTSNode(GameState state)
         {
@@ -31,7 +30,6 @@ public class MCTSAgent : MonoBehaviour
     private int numSim = 10;
     
     
-
     // Update is called once per frame
     void Update()
     {
@@ -61,56 +59,48 @@ public class MCTSAgent : MonoBehaviour
 
     private void ComputeMCTS()
     {
-        /*MCTSNode startNode = new MCTSNode(GMInstance.GetCurrentGameState());
+        MCTSNode startNode = new MCTSNode(GMInstance.GetCurrentGameState());
         for (int i = 0; i < numIteration; i++)
         {
             MCTSNode selectedNode = Selection(startNode);
             MCTSNode newNode = Expansion(selectedNode);
             int numWin = Simulation(newNode, numSim);
             BackPropogation(newNode, numWin, numSim);
-        }*/
-        
-        // GameManagerInstance.PlayMove(simulationGameState, player, selectedMove)
+        }
+
+        GMInstance.ExecuteActionForEnnemy(GMInstance.State, bestAction); // Play ennemy move on real GameState
     }
-    
-    private bool checkIsLeaf(MCTSNode node)
-    {
-        return true;
-    }
-    
-    //#1. Select a node if 1: we have more valid feasible moves or 2: it is terminal 
+
+    // 1 Select a node if we have more valid feasible moves or it is terminal 
     private MCTSNode Selection(MCTSNode node)
     {
         string mode = "EXPLOITATION";
-        // 70% de chance d'exploration et 30 de chance d'exploitation
-        if(Random.Range(1, 10) > 3)
+        
+        if(Random.Range(1, 10) > 3) // 70% de chance d'exploration et 30 de chance d'exploitation
             mode = "EXPLORATION";
 
-        while (node.children.Count > 0)
+        while (!isLeaf(node))
         {
             if (mode == "EXPLORATION")
             {
-                // exploration - choix random
+                // Exploration - Choix random
             }
             else if (mode == "EXPLOITATION")
             {
-                // exploitation - on descent au plus bas possible en fonction du plus gros score
+                // Exploitation - On descent au plus bas possible en fonction du plus gros score
             }
         }
         
         return node; // tmp
     }
 
-    //#2. Expand a node by creating a new move and returning the node
+    // 2 Expand a node by creating a new move and returning the node
     private MCTSNode Expansion(MCTSNode selectedNode)
     {
-        
-        // copie du gamestate
-        GameState simulateState = selectedNode.State;
-        // playmove
+        GameState simulateState = selectedNode.State; // GameState copy
         GameManager.instance.ExecuteActionForEnnemy(selectedNode.State, selectedNode.action);
         
-        // créer nouveau node enfant (définir son parent au selected)
+        // Créer nouveau node enfant (définir son parent au selected)
         return selectedNode; // tmp
     }
     
@@ -141,14 +131,31 @@ public class MCTSAgent : MonoBehaviour
 
         }
         return numWin;
-
-
-
     }
     
+    // 4 Update score to determine best action
     private void BackPropogation(MCTSNode nodeToExplore, int numWin, int numSim)
     {
         // !Node.isFeuille
         // remonte
+        
+        nodeToExplore.parent.nbWin = 0;
+        nodeToExplore.parent.nbPlayed = 0;
+        for (int i = 0; i < nodeToExplore.parent.children.Count; i++) {
+            nodeToExplore.parent.nbWin += nodeToExplore.parent.children[i].nbWin;
+            nodeToExplore.parent.nbPlayed += nodeToExplore.parent.children[i].nbPlayed;
+        }
+        
+        nodeToExplore.parent.value = nodeToExplore.parent.nbWin / nodeToExplore.parent.nbPlayed;
+    }
+    
+    private bool isLeaf(MCTSNode node)
+    {
+        return node.children.Count <= 0;
+    }
+
+    private bool hasParent(MCTSNode node)
+    {
+        return node.parent != null;
     }
 }

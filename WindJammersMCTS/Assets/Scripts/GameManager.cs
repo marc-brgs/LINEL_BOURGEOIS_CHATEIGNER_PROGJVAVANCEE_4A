@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
     public bool isScored = false;
     public bool isFinished = false;
 
-    private string gameMode = "MCTS"; // Default gameMode
+    private string gameMode = "Random"; // Default gameMode
 
     // string[] possibleActions = { "UP", "DOWN", "LEFT", "RIGHT", "SHOOT" };
 
