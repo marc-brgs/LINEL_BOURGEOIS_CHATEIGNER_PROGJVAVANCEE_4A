@@ -16,6 +16,9 @@ public class GameManager : MonoBehaviour
     public GameObject player;
     public GameObject ennemy;
 
+    public AudioClip Dawae;
+    public AudioSource audioSource;
+
     public GameObject borderTop;
     public GameObject borderBottom;
     public GameObject borderLeft;
@@ -72,6 +75,7 @@ public class GameManager : MonoBehaviour
             ennemy.GetComponent<MCTSAgent>().GMInstance = instance;
             // ennemy.GetComponent<MCTSAgent>().ComputeMCTS(); // Debug MCTS (big freeze)
         }
+        audioSource.clip = Dawae;
     }
 
     // Physics (collisions, movements)
@@ -177,7 +181,7 @@ public class GameManager : MonoBehaviour
                 if(state == State) // Real game end
                     EndGame();
             }
-
+            audioSource.Play();
             scored = true;
         }
         else if (state.frisbeePosition.x > goalP.transform.position.x - goalRadius) // Frisbee half enter player goal - Ennemy scored
@@ -191,6 +195,7 @@ public class GameManager : MonoBehaviour
                 if(state == State) // Real game end
                     EndGame();
             }
+            audioSource.Play();
             scored = true;
         }
 
