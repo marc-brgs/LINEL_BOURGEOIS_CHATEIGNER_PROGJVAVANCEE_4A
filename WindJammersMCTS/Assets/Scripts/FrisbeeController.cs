@@ -10,9 +10,6 @@ public class FrisbeeController : MonoBehaviour
     public bool isHeld = false;
     public bool isMoving = false;
     public string lastHolder = "Ennemy";
-
-    private float frisbeeSpeed = 20f;
-
     public Vector2 frisbeeDirection = new Vector2(-1, 1);
 
     public GameObject player;
@@ -45,23 +42,11 @@ public class FrisbeeController : MonoBehaviour
         frisbeeRadius = this.transform.localScale.x / 2;
         entityRadius = player.transform.localScale.x / 2;
         borderRadius = borderTop.transform.localScale.z / 2;
-
-        state = GameManager.instance.State;
-    }
-
-    void Update()
-    {
-        checkCatch(state);
-    }
-    void FixedUpdate()
-    {
-        checkBorderCollisions(state);
-        moveOrStick(state);
     }
 
     public void moveOrStick(GameState state)
     {
-        if (isMoving && !state.isHeld) // Move frisbee
+        if (state.isMoving && !state.isHeld) // Move frisbee
         {
             state.frisbeePosition = new Vector3(state.frisbeePosition.x + state.frisbeeDirection.x / 2, 2.25f, state.frisbeePosition.z + state.frisbeeDirection.y / 2);
         }
@@ -80,7 +65,7 @@ public class FrisbeeController : MonoBehaviour
         if (!state.isHeld && distPlayer < 2.5f && state.lastHolder != "Player") // Player frisbee catch
         {
             state.isHeld = true;
-            isMoving = true; // first catch
+            state.isMoving = true; // first catch
             state.lastHolder = "Player";
         }
         
@@ -88,7 +73,7 @@ public class FrisbeeController : MonoBehaviour
         if (!state.isHeld && distEnnemy < 2.5f && state.lastHolder != "Ennemy") // Ennemy frisbee catch
         {
             state.isHeld = true;
-            isMoving = true; // first catch
+            state.isMoving = true; // first catch
             state.lastHolder = "Ennemy";
         }
     }

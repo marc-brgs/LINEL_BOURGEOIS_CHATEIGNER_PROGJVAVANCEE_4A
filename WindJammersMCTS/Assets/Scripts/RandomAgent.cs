@@ -55,20 +55,20 @@ public class RandomAgent : MonoBehaviour
         actionExecute = false;
         horizontalInput = Random.Range(-1f, 1f);
         verticalInput = Random.Range(-1f, 1f);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(.5f);
         actionExecute = true;
     }
 
     private void Move(GameState state)
     {
-        state.ennemyPosition = new Vector3(state.ennemyPosition.x + horizontalInput/1.5f, 2.5f, state.ennemyPosition.z + verticalInput/1.5f);
+        state.ennemyPosition = new Vector3(state.ennemyPosition.x + horizontalInput/2f, 2.5f, state.ennemyPosition.z + verticalInput/2f);
     }
 
     private void tryToShoot(GameState state)
     {
         if (FrisbeeController.instance.isHeld && FrisbeeController.instance.lastHolder == "Ennemy")
         {
-            if (Random.Range(1, 10) > 3) // 70% chance to shoot
+            if (Random.Range(1, 10) > 6) // 40% chance to shoot each demi second
             {
                 FrisbeeController.instance.Shoot(state, Random.Range(1, 10) > 5 ? "TOP" : "BOTTOM"); // 50 % chance to aim TOP or BOTTOM
             }

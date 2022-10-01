@@ -481,6 +481,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 577aee48-3cb8-44b7-be78-650977f249ea
     m_ActionName: Player/Shoot[/DualShock4GamepadHID/rightShoulder]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 855c7d52-0f8f-4035-ab63-cea01f3508c9
+    m_ActionName: Player/ShootBottom[/XInputControllerWindows/leftShoulder]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -1254,7 +1258,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GameIsPaused: 0
-  endPoint: 0
   pauseMenu: {fileID: 574847949}
   menuFin: {fileID: 179987933}
   frisbee: {fileID: 1150344354}
@@ -1269,9 +1272,6 @@ MonoBehaviour:
   filetRadius: 0
   goalP: {fileID: 1115279038}
   goalE: {fileID: 1946216812}
-  State: {fileID: 0}
-  isScored: 1
-  isFinished: 0
 --- !u!4 &624771243
 Transform:
   m_ObjectHideFlags: 0
@@ -1626,6 +1626,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 523f6c91a632da94a9d3a14ff481ef9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GMInstance: {fileID: 0}
 --- !u!1 &843510062
 GameObject:
   m_ObjectHideFlags: 0

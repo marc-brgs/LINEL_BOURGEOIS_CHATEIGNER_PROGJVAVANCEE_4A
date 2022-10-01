@@ -9,7 +9,6 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public bool GameIsPaused = false;
-    public bool endPoint = false;
     
     public GameObject pauseMenu;
     public GameObject menuFin;
@@ -30,13 +29,10 @@ public class GameManager : MonoBehaviour
     private float goalRadius;
 
     public GameState State;
-    public bool isScored = false;
-    public bool isFinished = false;
 
-    private string gameMode = "Random"; // Default gameMode
-
-    // string[] possibleActions = { "UP", "DOWN", "LEFT", "RIGHT", "SHOOT" };
-
+    private string gameMode = "Random"; // Default game mode
+    private int maxScore = 7;
+    
     void Awake()
     {
         if (instance != null)
@@ -51,48 +47,59 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Instantiate GameState
+        State = new GameState(player.transform.position, ennemy.transform.position, frisbee.transform.position,
+            FrisbeeController.instance.frisbeeDirection, 0, 0, false, false, "Ennemy", false, false);
+        
+        // Scales
         borderRadius = borderTop.transform.localScale.z / 2;
         goalRadius = goalP.transform.localScale.x / 2;
         filetRadius = filet.transform.localScale.x / 2;
 
-        if(GameConfig.instance != null) // Recover gameMode selected from menu
+        if (GameConfig.instance != null) // Recover game mode from menu
             gameMode = GameConfig.instance.gameMode;
 
-        if (gameMode == "Random")
+            if (gameMode == "Random")
         {
             ennemy.GetComponent<MCTSAgent>().enabled = false; // Remove MCTS agent
         }
         if (gameMode == "MCTS")
         {
             ennemy.GetComponent<RandomAgent>().enabled = false; // Remove random agent
-        }
 
-        // Instantiate GameState
-        State = new GameState(player.transform.position, ennemy.transform.position, frisbee.transform.position,
-            FrisbeeController.instance.frisbeeDirection, 0, 0, false, "Ennemy", false, false);
+            ennemy.GetComponent<MCTSAgent>().GMInstance = instance;
+            // ennemy.GetComponent<MCTSAgent>().ComputeMCTS(); // Debug MCTS (big freeze)
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    // Physics (collisions, movements)
+    void FixedUpdate()
     {
         if (gameMode == "MCTS")
         {
-            ExecuteActionForEnnemy(State, "UP");
-            ExecuteActionForEnnemy(State, "LEFT");
+            // ennemy.GetComponent<MCTSAgent>().ComputeMCTS(); // MCTS Big freeze
         }
 
-        bool endRound = checkGoals(State);
+        FrisbeeController.instance.checkCatch(this.State);
+        FrisbeeController.instance.checkBorderCollisions(this.State);
+        FrisbeeController.instance.moveOrStick(this.State);
         
-        if(endRound)
-            setupNextRound(State);
+        bool endRound = checkGoals(this.State);
+
+        if (endRound)
+            setupNextRound(this.State); // Unnecessary to simulate (simulation end when scoring a point)
+    }
+    
+    // Update is called once per frame (inputs)
+    void Update()
+    {
+        RenderGameState(this.State);
         
-        RenderGameState(State);
-        
-        if(!isFinished)
+        if(!State.isFinished)
             CheckForPause();
     }
 
-    public void CheckForPause()
+    private void CheckForPause()
     {
         if (!Input.GetKeyDown(KeyCode.Escape)) return;
        
@@ -128,23 +135,21 @@ public class GameManager : MonoBehaviour
         RenderGameState(State);
         menuFin.SetActive(true);
         Time.timeScale = 0f;
-        GameObject.Find("UI/Menu Fin/Texte").GetComponent<TMPro.TextMeshProUGUI>().text = Scores.instance.EnnemyScore.ToString() + '-' + Scores.instance.PlayerScore.ToString();
+        GameObject.Find("UI/Menu Fin/Score").GetComponent<TMPro.TextMeshProUGUI>().text = Scores.instance.EnnemyScore.ToString() + '-' + Scores.instance.PlayerScore.ToString();
     }
 
     /*
      *  Render game with given GameState
      */
-    public void RenderGameState(GameState State)
+    public void RenderGameState(GameState state)
     {
-        player.transform.position = State.playerPosition;
-        ennemy.transform.position = State.ennemyPosition;
-        frisbee.transform.position = State.frisbeePosition;
-        Scores.instance.PlayerScore = State.playerScore;
-        Scores.instance.EnnemyScore = State.ennemyScore;
-        FrisbeeController.instance.isHeld = State.isHeld;
-        FrisbeeController.instance.lastHolder = State.lastHolder;
-        isScored = State.isScored;
-        isFinished = State.isFinished;
+        player.transform.position = state.playerPosition;
+        ennemy.transform.position = state.ennemyPosition;
+        frisbee.transform.position = state.frisbeePosition;
+        Scores.instance.PlayerScore = state.playerScore;
+        Scores.instance.EnnemyScore = state.ennemyScore;
+        FrisbeeController.instance.isHeld = state.isHeld;
+        FrisbeeController.instance.lastHolder = state.lastHolder;
     }
     
     public GameState GetCurrentGameState()
@@ -152,7 +157,6 @@ public class GameManager : MonoBehaviour
         return State;
     }
 
-    
     /*
      *  Check if scored with frisbee position 
      */
@@ -164,26 +168,26 @@ public class GameManager : MonoBehaviour
         {
             state.isScored = true;
             state.playerScore += 1;
-            setupNextRound(state);
 
-            if (state.playerScore == 10)
+            if (state.playerScore == maxScore)
             {
                 state.isFinished = true;
-                EndGame();
+                if(state == State) // Real game end
+                    EndGame();
             }
 
             scored = true;
         }
         else if (state.frisbeePosition.x > goalP.transform.position.x - goalRadius) // Frisbee half enter player goal - Ennemy scored
         {
-            isScored = true;
+            state.isScored = true;
             state.ennemyScore += 1;
-            setupNextRound(state);
 
-            if (Scores.instance.EnnemyScore == 10)
+            if (state.ennemyScore == maxScore)
             {
                 state.isFinished = true;
-                EndGame();
+                if(state == State) // Real game end
+                    EndGame();
             }
             scored = true;
         }
@@ -193,17 +197,15 @@ public class GameManager : MonoBehaviour
     
     public void setupNextRound(GameState state)
     {
-        if (state.lastHolder == "Ennemy") // Set frisbee in ennemy zone
+        if (state.lastHolder == "Ennemy") // Set frisbee in player zone
         {
-            state.lastHolder = "Player";
-            state.frisbeePosition = new Vector3(-6f, 2.25f, 0f);
-        }
-        else if(state.lastHolder == "Player") // Set frisbee in player zone
-        {
-            state.lastHolder = "Ennemy";
             state.frisbeePosition = new Vector3(6f, 2.25f, 0f);
         }
-        FrisbeeController.instance.isMoving = false;
+        else if(state.lastHolder == "Player") // Set frisbee in ennemy zone
+        {
+            state.frisbeePosition = new Vector3(-6f, 2.25f, 0f);
+        }
+        state.isMoving = false;
         state.isHeld = false;
         state.isScored = false;
     }
@@ -279,7 +281,7 @@ public class GameManager : MonoBehaviour
 
         return state;
     }
-
+    
     /*
      *  Return inputX and inputY handling border collision (set 0 on axis if border)
      */

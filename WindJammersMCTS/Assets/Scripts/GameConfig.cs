@@ -6,7 +6,6 @@ public class GameConfig : MonoBehaviour
 {
     public static GameConfig instance;
     public string gameMode;
-    public int maxScore;
 
     void Awake()
     {

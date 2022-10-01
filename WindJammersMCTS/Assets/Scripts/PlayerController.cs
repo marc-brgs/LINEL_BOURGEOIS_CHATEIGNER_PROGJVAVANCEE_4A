@@ -65,8 +65,7 @@ public class PlayerController : MonoBehaviour
         FrisbeeController.instance.Shoot(GameManager.instance.State, "BOTTOM");
     }
 
-
-
+    
     void Update()
     {
         GetInputs();
@@ -81,7 +80,7 @@ public class PlayerController : MonoBehaviour
     {
         checkCollisions(GameManager.instance.State);
 
-        if (horizontalInput == 0f && verticalInput == 0f) return; // Don't update GameState
+        if (horizontalInput == 0f && verticalInput == 0f) return; // Don't modify GameState
         Move(GameManager.instance.State);
     }
     

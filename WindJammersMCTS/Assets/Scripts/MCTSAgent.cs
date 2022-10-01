@@ -23,19 +23,22 @@ public class MCTSAgent : MonoBehaviour
             this.nbWin = 0;
             this.nbPlayed = 0;
             this.value = 0;
+            this.children = new List<MCTSNode> {};
         }
     }
 
-    private GameManager GMInstance = GameManager.instance; 
+    public GameManager GMInstance; 
     private float bestValue;
     private string bestAction;
     
-    private int numIteration = 100;
-    private int numSim = 10;
-
-    public void ComputeMCTS()
+    private int numIteration = 1; // Debug value
+    private int numSim = 1; // Debug value
+    private int maxMoves = 10; // Anti infinite loop for Simulation
+    
+    
+    public void ComputeMCTS() // DONE
     {
-        MCTSNode startNode = new MCTSNode(GMInstance.GetCurrentGameState());
+        MCTSNode startNode = new MCTSNode(GMInstance.State);
         for (int i = 0; i < numIteration; i++)
         {
             MCTSNode selectedNode = Selection(startNode);
@@ -58,6 +61,7 @@ public class MCTSAgent : MonoBehaviour
         
         // Play ennemy move on real GameState with best action
         GMInstance.ExecuteActionForEnnemy(GMInstance.State, bestAction);
+        Debug.Log("MCTS move : " + bestAction);
     }
 
     /**
@@ -134,8 +138,9 @@ public class MCTSAgent : MonoBehaviour
 
         for (int i = 0; i < numSim; i++)
         {
+            int move = 0;
             simulatedGameState.copyGameState(node.State);
-            while (!simulatedGameState.isScored) // Until goal scored
+            while (!simulatedGameState.isScored && move < maxMoves) // Until goal scored or move limit exceeded
             {
                 string[] actions = simulatedGameState.getPossibleAction("ENNEMY");
                 string selectedAction = simulatedGameState.getRandomAction(actions);
@@ -150,6 +155,8 @@ public class MCTSAgent : MonoBehaviour
                 FrisbeeController.instance.checkCatch(simulatedGameState);
                 FrisbeeController.instance.moveOrStick(simulatedGameState);
                 GMInstance.checkGoals(simulatedGameState);
+
+                move++;
             }
             
             if (simulatedGameState.ennemyScore > preEnnemyScore) numWin++;
