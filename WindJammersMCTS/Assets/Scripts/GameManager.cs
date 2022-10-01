@@ -57,33 +57,18 @@ public class GameManager : MonoBehaviour
 
         if(GameConfig.instance != null) // Recover gameMode selected from menu
             gameMode = GameConfig.instance.gameMode;
-        
-        if (gameMode == "Solo")
-        {
-            ennemy.GetComponent<RandomAgent>().enabled = false; // Remove random agent
-            ennemy.GetComponent<MCTSAgent>().enabled = false; // Remove MCTS agent
-        }
-        if (gameMode == "Duo")
-        {
-            ennemy.GetComponent<PlayerController>().enabled = false; // Remove controls
-            ennemy.GetComponent<RandomAgent>().enabled = false; // Remove random agent
-            ennemy.GetComponent<MCTSAgent>().enabled = false; // Remove MCTS agent
-        }
 
         if (gameMode == "Random")
         {
-            ennemy.GetComponent<PlayerController>().enabled = false; // Remove controls
             ennemy.GetComponent<MCTSAgent>().enabled = false; // Remove MCTS agent
         }
         if (gameMode == "MCTS")
         {
-            ennemy.GetComponent<PlayerController>().enabled = false; // Remove controls
             ennemy.GetComponent<RandomAgent>().enabled = false; // Remove random agent
         }
 
         // Instantiate GameState
-        State = new GameState(player.transform.position, new Vector2(0f, 0f), ennemy.transform.position,
-            new Vector2(0f, 0f), frisbee.transform.position,
+        State = new GameState(player.transform.position, ennemy.transform.position, frisbee.transform.position,
             FrisbeeController.instance.frisbeeDirection, 0, 0, false, "Ennemy", false, false);
     }
 
@@ -92,8 +77,8 @@ public class GameManager : MonoBehaviour
     {
         if (gameMode == "MCTS")
         {
-            State = ExecuteActionForEnnemy(this.State, "UP");
-            State = ExecuteActionForEnnemy(this.State, "LEFT");
+            ExecuteActionForEnnemy(State, "UP");
+            ExecuteActionForEnnemy(State, "LEFT");
         }
 
         bool endRound = checkGoals(State);

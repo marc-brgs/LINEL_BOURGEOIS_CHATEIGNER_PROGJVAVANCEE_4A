@@ -233,7 +233,7 @@ GameObject:
   - component: {fileID: 72757199}
   - component: {fileID: 72757198}
   m_Layer: 5
-  m_Name: Bouton Menu
+  m_Name: Menu button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -712,7 +712,7 @@ GameObject:
   - component: {fileID: 439438073}
   - component: {fileID: 439438072}
   m_Layer: 5
-  m_Name: Bouton Continuer
+  m_Name: Resume button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -913,7 +913,7 @@ GameObject:
   - component: {fileID: 553485574}
   - component: {fileID: 553485573}
   m_Layer: 5
-  m_Name: Rejouer
+  m_Name: Replay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -959,7 +959,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Rejouer
+  m_text: Replay
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
@@ -1101,7 +1101,7 @@ GameObject:
   - component: {fileID: 601890615}
   - component: {fileID: 601890614}
   m_Layer: 5
-  m_Name: Texte
+  m_Name: Score
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1393,7 +1393,7 @@ GameObject:
   - component: {fileID: 799811715}
   - component: {fileID: 799811714}
   m_Layer: 5
-  m_Name: Continuer
+  m_Name: Resume
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1439,7 +1439,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Continuer
+  m_text: Resume
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
@@ -1527,7 +1527,6 @@ GameObject:
   - component: {fileID: 813707095}
   - component: {fileID: 813707094}
   - component: {fileID: 813707093}
-  - component: {fileID: 813707089}
   - component: {fileID: 813707096}
   - component: {fileID: 813707097}
   m_Layer: 0
@@ -1537,19 +1536,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &813707089
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 813707088}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb7e0c962d952e749adf8ea88b435a00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  side: LEFT
 --- !u!23 &813707093
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1652,7 +1638,7 @@ GameObject:
   - component: {fileID: 843510065}
   - component: {fileID: 843510064}
   m_Layer: 5
-  m_Name: Titre
+  m_Name: Game Over
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1698,7 +1684,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Fin de partie
+  m_text: Game Over
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
@@ -2000,7 +1986,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 64
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -2045,7 +2031,7 @@ GameObject:
   - component: {fileID: 972569402}
   - component: {fileID: 972569401}
   m_Layer: 5
-  m_Name: Titre
+  m_Name: Pause
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2426,10 +2412,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: 0-0
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
-  m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bdcd41b4691d2c94f9778785c05e5edf, type: 2}
+  m_sharedMaterial: {fileID: 5530210103668279747, guid: bdcd41b4691d2c94f9778785c05e5edf, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2947,7 +2933,7 @@ GameObject:
   - component: {fileID: 1354007741}
   - component: {fileID: 1354007740}
   m_Layer: 5
-  m_Name: Bouton Rejouer
+  m_Name: Replay button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3398,15 +3384,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.6117647}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 0}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -3451,7 +3437,7 @@ GameObject:
   - component: {fileID: 1629361454}
   - component: {fileID: 1629361453}
   m_Layer: 5
-  m_Name: Bouton Menu
+  m_Name: Menu button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
