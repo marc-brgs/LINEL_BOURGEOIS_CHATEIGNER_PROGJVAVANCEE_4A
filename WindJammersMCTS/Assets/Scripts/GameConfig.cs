@@ -5,8 +5,9 @@ using UnityEngine;
 public class GameConfig : MonoBehaviour
 {
     public static GameConfig instance;
-    public string gameMode = "Solo";
-    
+    public string gameMode;
+    public int maxScore;
+
     void Awake()
     {
         if (instance != null)
