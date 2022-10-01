@@ -30,3 +30,13 @@ Have fun (:
 - Movements : LEFT_STICK
 - Shoot top : RB
 - Shoot bottom : LB
+
+## External assets
+
+### Models
+- Knuckles
+- Captain America Shield
+
+### Sounds
+- 2 musics (Menu scene, Game scene)
+- All sounds effect (wall collisions, scoring point, menu buttons)
