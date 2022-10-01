@@ -20,6 +20,9 @@ public class FrisbeeController : MonoBehaviour
     public GameObject borderTop;
     public GameObject borderBottom;
 
+    public AudioClip CollisionWall;
+    public AudioSource audioSource;
+
     private float frisbeeRadius;
     private float entityRadius;
     private float borderRadius;
@@ -94,12 +97,16 @@ public class FrisbeeController : MonoBehaviour
     {
         if (state.frisbeePosition.z + frisbeeRadius > borderTop.transform.position.z - borderRadius) // Frisbee collide border top
         {
+            audioSource.clip = CollisionWall;
+            audioSource.Play();
             state.frisbeeDirection = new Vector2(state.frisbeeDirection.x, -state.frisbeeDirection.y);
         }
 
         if (state.frisbeePosition.z - frisbeeRadius < borderBottom.transform.position.z + borderRadius) // Frisbee collide border bottom
         {
-            state.frisbeeDirection = new Vector2(state.frisbeeDirection.x, -state.frisbeeDirection.y);
+            audioSource.clip = CollisionWall;
+            audioSource.Play();
+            state.frisbeeDirection = new Vector2(state.frisbeeDirection.x, -state.frisbeeDirection.y);   
         }
     }
     

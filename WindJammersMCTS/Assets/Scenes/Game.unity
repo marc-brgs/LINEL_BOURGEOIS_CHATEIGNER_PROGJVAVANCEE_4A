@@ -2276,6 +2276,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: AudioManager
       objectReference: {fileID: 0}
+    - target: {fileID: 2479774185225342834, guid: e4c11845afac54b40b364f2fb73043e3, type: 3}
+      propertyPath: Music
+      value: 
+      objectReference: {fileID: 8300000, guid: 5a7b0602ab9c89e47adea1a0ec80b636, type: 3}
+    - target: {fileID: 2479774185225342835, guid: e4c11845afac54b40b364f2fb73043e3, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 3456197825413496300, guid: 820079d69dd009642990bdc6a3921f06, type: 2}
     - target: {fileID: 2479774185225342836, guid: e4c11845afac54b40b364f2fb73043e3, type: 3}
       propertyPath: m_RootOrder
       value: 9
@@ -2791,6 +2799,7 @@ GameObject:
   - component: {fileID: 1150344358}
   - component: {fileID: 1150344355}
   - component: {fileID: 1150344361}
+  - component: {fileID: 1150344362}
   m_Layer: 0
   m_Name: Frisbee
   m_TagString: Untagged
@@ -2818,6 +2827,8 @@ MonoBehaviour:
   ennemy: {fileID: 813707088}
   borderTop: {fileID: 1418066390}
   borderBottom: {fileID: 405104254}
+  CollisionWall: {fileID: 8300000, guid: a90c5599b0315e64b9636fdf94be05f5, type: 3}
+  audioSource: {fileID: 1150344362}
 --- !u!23 &1150344358
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2991,6 +3002,102 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
+--- !u!82 &1150344362
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1150344354}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: -1138353881587436604, guid: 820079d69dd009642990bdc6a3921f06, type: 2}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1354007738
 GameObject:
   m_ObjectHideFlags: 0
