@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        entityRadius = this.transform.localScale.x / 1.2f;
+        entityRadius = GameManager.instance.entityRadius;
         borderTop = GameManager.instance.borderTop;
         borderBottom = GameManager.instance.borderBottom;
         borderLeft = GameManager.instance.borderLeft;
@@ -92,7 +92,7 @@ public class PlayerController : MonoBehaviour
     
     private void Move(GameState state)
     {
-        state.playerPosition = new Vector3(state.playerPosition.x + horizontalInput/1.5f, 2.5f, state.playerPosition.z + verticalInput/1.5f);
+        state.playerPosition = new Vector3(state.playerPosition.x + horizontalInput/1.5f, state.playerPosition.y, state.playerPosition.z + verticalInput/1.5f);
     }
     
     private void checkCollisions(GameState state)

@@ -25,14 +25,12 @@ public class RandomAgent : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        entityRadius = this.transform.localScale.x / 1.2f;
+        entityRadius = GameManager.instance.entityRadius;
         borderTop = GameManager.instance.borderTop;
         borderBottom = GameManager.instance.borderBottom;
         borderLeft = GameManager.instance.borderLeft;
         borderRight = GameManager.instance.borderRight;
         borderRadius = GameManager.instance.borderRadius;
-
-        state = GameManager.instance.State;
     }
 
     void Update()
@@ -40,7 +38,7 @@ public class RandomAgent : MonoBehaviour
         if (actionExecute)
         {
             StartCoroutine(randomizeInput());
-            tryToShoot(state);
+            tryToShoot(GameManager.instance.State);
         }
     }
     
@@ -61,7 +59,7 @@ public class RandomAgent : MonoBehaviour
 
     private void Move(GameState state)
     {
-        state.ennemyPosition = new Vector3(state.ennemyPosition.x + horizontalInput/2f, 2.5f, state.ennemyPosition.z + verticalInput/2f);
+        state.ennemyPosition = new Vector3(state.ennemyPosition.x + horizontalInput/2f, state.ennemyPosition.y, state.ennemyPosition.z + verticalInput/2f);
     }
 
     private void tryToShoot(GameState state)

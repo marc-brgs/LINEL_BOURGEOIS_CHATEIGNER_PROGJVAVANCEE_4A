@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     public float borderRadius;
     public GameObject filet;
     public float filetRadius;
+    public float entityRadius;
     
     [SerializeField] private  GameObject goalP;
     [SerializeField] private GameObject goalE;
@@ -41,6 +42,12 @@ public class GameManager : MonoBehaviour
             return;
         }
         instance = this;
+        
+        // Scales
+        borderRadius = borderTop.transform.localScale.z / 2;
+        goalRadius = goalP.transform.localScale.x / 2;
+        filetRadius = filet.transform.localScale.x / 2;
+        entityRadius = 2f;
     }
 
 
@@ -50,11 +57,6 @@ public class GameManager : MonoBehaviour
         // Instantiate GameState
         State = new GameState(player.transform.position, ennemy.transform.position, frisbee.transform.position,
             FrisbeeController.instance.frisbeeDirection, 0, 0, false, false, "Ennemy", false, false);
-        
-        // Scales
-        borderRadius = borderTop.transform.localScale.z / 2;
-        goalRadius = goalP.transform.localScale.x / 2;
-        filetRadius = filet.transform.localScale.x / 2;
 
         if (GameConfig.instance != null) // Recover game mode from menu
             gameMode = GameConfig.instance.gameMode;
