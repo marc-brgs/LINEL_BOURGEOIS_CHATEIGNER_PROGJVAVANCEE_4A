@@ -38,5 +38,5 @@ Have fun (:
 - Captain America Shield
 
 ### Sounds
-- 2 musics (Menu scene, Game scene)
+- 2 musics from MHA (You say run - Menu scene, Iron battle - Game scene)
 - All sounds effect (wall collisions, scoring point, menu buttons)
