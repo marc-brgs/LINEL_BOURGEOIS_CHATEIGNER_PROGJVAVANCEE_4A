@@ -23,8 +23,8 @@ Have fun (:
 - Go down : ARROW_DOWN
 - Go left : ARROW_LEFT
 - Go right : ARROW_RIGHT
-- Shoot top : LEFT_CLICK
-- Shoot bottom : RIGHT_CLICK
+- Shoot top : RIGHT_CLICK
+- Shoot bottom : LEFT_CLICK
 
 ### Pad
 - Movements : LEFT_STICK
